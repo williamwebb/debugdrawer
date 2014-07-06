@@ -1,0 +1,96 @@
+import com.android.builder.core.BuilderConstants
+
+import java.util.regex.Pattern;
+
+buildscript {
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.1.+'
+    }
+}
+
+apply plugin: 'android-sdk-manager'
+apply plugin: 'android-library'
+apply plugin: 'hugo'
+
+
+dependencies {
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.jakewharton:butterknife:5.0.1'
+    compile 'com.jakewharton.timber:timber:2.2.2'
+    compile 'com.jakewharton.madge:madge:1.1.1'
+    compile 'com.jakewharton.scalpel:scalpel:1.1.1'
+}
+
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+            buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+        }
+        release {
+            buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+            buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+        }
+    }
+}
+
+android.libraryVariants.all { variant ->
+    def name = variant.buildType.name
+    if (!BuilderConstants.DEBUG.equals(name)) {
+        def task = project.tasks.create "jar${name.capitalize()}", Jar
+        task.dependsOn variant.javaCompile
+        task.from variant.javaCompile.destinationDir
+        artifacts.add('archives', task);
+    }
+}
+
+task('increaseVersionCode') << {
+    def manifestFile = file("src/main/AndroidManifest.xml")
+    def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
+    def manifestText = manifestFile.getText()
+    def matcher = pattern.matcher(manifestText)
+    matcher.find()
+    def versionCode = Integer.parseInt(matcher.group(1))
+    def manifestContent = matcher.replaceAll("versionCode=\"" + ++versionCode + "\"")
+    manifestFile.write(manifestContent)
+}
+
+task('incrementVersionName') << {
+    def manifestFile = file("src/main/AndroidManifest.xml")
+    def patternVersionNumber = Pattern.compile("versionName=\"(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\"")
+    def manifestText = manifestFile.getText()
+    def matcherVersionNumber = patternVersionNumber.matcher(manifestText)
+    matcherVersionNumber.find()
+    def majorVersion = Integer.parseInt(matcherVersionNumber.group(1))
+    def minorVersion = Integer.parseInt(matcherVersionNumber.group(2))
+    def pointVersion = Integer.parseInt(matcherVersionNumber.group(3))
+    def buildVersion = Integer.parseInt(matcherVersionNumber.group(4))
+    def mNextVersionName = majorVersion + "." + minorVersion + "." + pointVersion + "." + (buildVersion + 1)
+    def manifestContent = matcherVersionNumber.replaceAll("versionName=\"" + mNextVersionName + "\"")
+    manifestFile.write(manifestContent)
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'generateDebugBuildConfig') {
+        task.dependsOn 'incrementVersionName'
+    }
+    if (task.name == 'generateReleaseBuildConfig') {
+        task.dependsOn 'increaseVersionCode'
+        task.dependsOn 'incrementVersionName'
+    }
+}
+
+//apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="12dp"
+        android:orientation="vertical"
+        tools:uselessParent="true">
+
+<GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:id="@+id/debug_root"
+        android:useDefaultMargins="true"
+    >
+
+    <LinearLayout
+            android:layout_columnSpan="2"
+            android:layout_gravity="start|end"
+            android:orientation="horizontal"
+            >
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginRight="8dp"
+                android:gravity="center_vertical|right"
+                android:orientation="vertical"
+                >
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+                    />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/development_settings"
+                    style="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle"
+                    />
+        </LinearLayout>
+
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_launcher"
+                />
+    </LinearLayout>
+
+    <!-- CONTEXTUAL SECTION -->
+
+    <TextView
+            android:id="@+id/debug_contextual_title"
+            android:layout_columnSpan="2"
+            android:layout_gravity="start|end"
+            android:text="Contextual Actions"
+            android:visibility="gone"
+            style="@style/Widget.U2020.DebugDrawer.Header"
+            />
+
+    <LinearLayout
+            android:id="@+id/debug_contextual_list"
+            android:layout_columnSpan="2"
+            android:layout_gravity="start|end"
+            android:orientation="vertical"
+            />
+
+</GridLayout>
+
+</LinearLayout>

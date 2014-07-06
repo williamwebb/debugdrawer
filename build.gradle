@@ -1,0 +1,15 @@
+allprojects {
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+    }
+
+    dependencies {
+        repositories {
+            mavenCentral()
+        }
+    }
+
+    apply plugin: 'maven'
+}
