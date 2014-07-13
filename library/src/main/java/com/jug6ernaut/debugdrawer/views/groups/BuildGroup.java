@@ -1,6 +1,6 @@
 package com.jug6ernaut.debugdrawer.views.groups;
 
-import android.content.Context;
+import android.app.Activity;
 import com.jug6ernaut.debugdrawer.views.DebugGroup;
 import com.jug6ernaut.debugdrawer.views.TextElement;
 
@@ -15,18 +15,18 @@ import java.util.TimeZone;
 public class BuildGroup extends DebugGroup {
     private static final DateFormat DATE_DISPLAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 
-    public BuildGroup(Context context){
-        this(context,context.getPackageName());
+    public BuildGroup(Activity activity){
+        this(activity,activity.getPackageName());
     }
 
-    public BuildGroup(Context context, String packageName) {
-        super("Build Information", context);
+    public BuildGroup(Activity activity, String packageName) {
+        super("Build Information", activity);
 
         String buildConfigPackage = packageName+".BuildConfig";
 
-        addElement(new TextElement(context, "Name:", getViaReflection(String.class,buildConfigPackage,"VERSION_NAME")));
-        addElement(new TextElement(context, "Code:", getViaReflection(Integer.class,buildConfigPackage,"VERSION_CODE")+""));
-        addElement(new TextElement(context, "SHA:", getViaReflection(String.class,buildConfigPackage,"GIT_SHA")));
+        addElement(new TextElement(activity, "Name:", getViaReflection(String.class,buildConfigPackage,"VERSION_NAME")));
+        addElement(new TextElement(activity, "Code:", getViaReflection(Integer.class,buildConfigPackage,"VERSION_CODE")+""));
+        addElement(new TextElement(activity, "SHA:", getViaReflection(String.class,buildConfigPackage,"GIT_SHA")));
 
         String buildTime = "";
         try {
@@ -39,7 +39,7 @@ public class BuildGroup extends DebugGroup {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        addElement(new TextElement(context, "Date:", buildTime));
+        addElement(new TextElement(activity, "Date:", buildTime));
     }
 
     private <T> T getViaReflection(Class<T> type, String className, String fieldName){

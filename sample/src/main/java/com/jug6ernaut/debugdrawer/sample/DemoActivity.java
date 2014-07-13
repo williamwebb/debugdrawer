@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import com.jug6ernaut.debugdrawer.DebugDrawer;
+import android.widget.Toast;
+import com.jug6ernaut.debugdrawer.DebugDrawerHelper;
 import com.jug6ernaut.debugdrawer.views.*;
 
 public class DemoActivity extends Activity {
@@ -19,10 +20,16 @@ public class DemoActivity extends Activity {
         DebugGroup testGroup = new DebugGroup("TestGroup",this);
         testGroup.addElement(new TextElement(this,"TextElement","Value"));
         testGroup.addElement(new ToggleElement("ToggleElement",this) {
-            @Override public void onAction(Boolean aBoolean) { /* nothing */ }
+            @Override
+            public void onAction(Boolean aBoolean) {
+                Toast.makeText(DemoActivity.this,"Toggle: " + aBoolean,Toast.LENGTH_SHORT).show();
+            }
         });
         testGroup.addElement(new SpinnerElement(this,"SpinnerElement",R.array.levels_entries) {
-            @Override public void onAction(String s) { /* nothing */ }
+            @Override
+            public void onAction(String s) {
+                Toast.makeText(DemoActivity.this,"Spinner: " + s,Toast.LENGTH_SHORT).show();
+            }
         });
         testGroup.addElement(new DebugElement(this,"Custom") {
             @Override public void onAction(Object o) { /* nothing */ }
@@ -35,8 +42,8 @@ public class DemoActivity extends Activity {
             }
         });
 
-        DebugDrawer.addGroup(testGroup);
-        DebugDrawer.attach(this, R.layout.main);
+        DebugDrawerHelper.addGroup(testGroup);
+        DebugDrawerHelper.attach(this, R.layout.main);
     }
 
     public void onClick1(View v){

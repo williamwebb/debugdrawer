@@ -1,5 +1,6 @@
 package com.jug6ernaut.debugdrawer.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.TypedValue;
@@ -18,17 +19,17 @@ import java.util.List;
 public class DebugGroup {
     protected final SharedPreferences prefs;
     private String title;
-    private Context context;
+    protected final Activity activity;
     private List<DebugElement> elements = new ArrayList<DebugElement>();
 
-    public DebugGroup(String title, Context context){
+    public DebugGroup(String title, Activity activity){
         this.title = title;
-        this.context = context;
-        prefs = context.getSharedPreferences(title+"prefs",Context.MODE_PRIVATE);
+        this.activity = activity;
+        prefs = activity.getSharedPreferences(title+"prefs",Context.MODE_PRIVATE);
     }
 
-    public DebugGroup(int title, Context context){
-        this(context.getString(title),context);
+    public DebugGroup(int title, Activity activity){
+        this(activity.getString(title),activity);
     }
 
     public void addElement(DebugElement element){
@@ -37,10 +38,10 @@ public class DebugGroup {
 
     public void attach(GridLayout layout){
 //        TextView titleView = (TextView) LayoutInflater.from(context).inflate(R.layout.debug_template_header,null);
-        TextView titleView = new TextView(new ContextThemeWrapper(context, R.style.Widget_U2020_DebugDrawer_Header));
+        TextView titleView = new TextView(new ContextThemeWrapper(activity, R.style.Widget_U2020_DebugDrawer_Header));
         titleView.setText(title);
-        int dp10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
-        int dp05 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics());
+        int dp10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, activity.getResources().getDisplayMetrics());
+        int dp05 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, activity.getResources().getDisplayMetrics());
         titleView.setPadding(0,dp10,0,dp05);
         GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
         lp.columnSpec = GridLayout.spec(0,2);
@@ -49,5 +50,9 @@ public class DebugGroup {
         for(DebugElement element : elements){
             element.attach(layout);
         }
+
+        onAttach(layout);
     }
+
+    protected void onAttach(GridLayout gridLayout){}
 }

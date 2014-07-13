@@ -1,9 +1,10 @@
 package com.jug6ernaut.debugdrawer.views.groups;
 
 import android.app.Activity;
+import android.widget.GridLayout;
 import com.jakewharton.scalpel.ScalpelFrameLayout;
-import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
 import com.jug6ernaut.debugdrawer.R;
+import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
 import com.jug6ernaut.debugdrawer.views.DebugGroup;
 import com.jug6ernaut.debugdrawer.views.ToggleElement;
 import timber.log.Timber;
@@ -23,15 +24,12 @@ public class ScalpelGroup extends DebugGroup {
     private BooleanPreference scalpelEnabled;
     private BooleanPreference scalpelWireframeEnabled;
 
-    public ScalpelGroup(Activity context) {
-        super("Scalpel", context);
-
-        scalpelFrameLayout = findById(context, R.id.debug_content);
-
+    public ScalpelGroup(Activity activity) {
+        super("Scalpel", activity);
         scalpelEnabled = new BooleanPreference(prefs,"scalpelEnabled");
         scalpelWireframeEnabled = new BooleanPreference(prefs,"scalpelWireframeEnabled");
 
-        uiScalpelElement = new ToggleElement("Scalpel",context) {
+        uiScalpelElement = new ToggleElement("Scalpel",activity) {
             @Override
             public void onAction(Boolean isChecked) {
                 Timber.d("Setting pixel scale overlay enabled to " + isChecked);
@@ -43,7 +41,7 @@ public class ScalpelGroup extends DebugGroup {
         };
         addElement(uiScalpelElement);
 
-        uiScalpelWireframeElement = new ToggleElement("Wireframe",context) {
+        uiScalpelWireframeElement = new ToggleElement("Wireframe",activity) {
             @Override
             public void onAction(Boolean isChecked) {
                 Timber.d("Setting scalpel wireframe enabled to " + isChecked);
@@ -52,7 +50,11 @@ public class ScalpelGroup extends DebugGroup {
             }
         };
         addElement(uiScalpelWireframeElement);
+    }
 
+    @Override
+    public void onAttach(GridLayout gridLayout){
+        scalpelFrameLayout = findById(activity, R.id.debug_content);
 
         boolean scalpel = scalpelEnabled.get();
         scalpelFrameLayout.setLayerInteractionEnabled(scalpel);

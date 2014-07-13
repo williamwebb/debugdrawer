@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:columnCount="2"
         android:id="@+id/debug_root"
-        android:useDefaultMargins="true"
     >
 
     <LinearLayout

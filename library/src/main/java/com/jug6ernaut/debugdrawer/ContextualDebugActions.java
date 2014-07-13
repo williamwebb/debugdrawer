@@ -26,7 +26,7 @@ public class ContextualDebugActions implements ViewGroup.OnHierarchyChangeListen
   private final View contextualTitleView;
   private final LinearLayout contextualListView;
 
-  public ContextualDebugActions(DebugDrawerHolder container, Set<DebugAction<?>> debugActions) {
+  public ContextualDebugActions(DebugDrawer container, Set<DebugAction<?>> debugActions) {
     buttonMap = new LinkedHashMap<DebugAction<? extends View>, View>();
     actionMap = new LinkedHashMap<Class<? extends View>, List<DebugAction<? extends View>>>();
 
