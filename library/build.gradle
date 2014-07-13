@@ -13,7 +13,7 @@ buildscript {
 // Manifest version information!
 def versionMajor = 0
 def versionMinor = 5
-def versionPatch = 0
+def versionPatch = 1
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 apply plugin: 'android-sdk-manager'

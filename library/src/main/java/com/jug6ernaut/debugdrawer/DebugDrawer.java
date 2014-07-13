@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
@@ -35,6 +36,7 @@ public class DebugDrawer {
     GridLayout debugAdditional;
     ViewGroup content;
     View contextualTitleView;
+    ImageView applicationIconView;
 
     Activity drawerContext;
 
@@ -121,6 +123,9 @@ public class DebugDrawer {
 
         contextualTitleView = findById(drawerContext, R.id.debug_contextual_title);
         contextualListView = findById(drawerContext, R.id.debug_contextual_list);
+
+        applicationIconView = findById(drawerContext, R.id.debug_icon);
+        applicationIconView.setImageResource(drawerContext.getApplicationInfo().icon);
     }
 
 }
