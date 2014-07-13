@@ -10,9 +10,16 @@ buildscript {
     }
 }
 
+// Manifest version information!
+def versionMajor = 0
+def versionMinor = 5
+def versionPatch = 0
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+
 apply plugin: 'android-sdk-manager'
 apply plugin: 'android-library'
 apply plugin: 'hugo'
+apply plugin: 'maven'
 
 
 dependencies {
@@ -47,13 +54,13 @@ android {
     }
 }
 
-android.libraryVariants.all { variant ->
-    def name = variant.buildType.name
-    if (!BuilderConstants.DEBUG.equals(name)) {
-        def task = project.tasks.create "jar${name.capitalize()}", Jar
-        task.dependsOn variant.javaCompile
-        task.from variant.javaCompile.destinationDir
-        artifacts.add('archives', task);
+group = 'com.jug6ernaut.debugdrawer'
+archivesBaseName = 'debugdrawer-lib'
+version = versionMajor +'.' + versionMinor + '.' + versionPatch
+
+uploadArchives {
+    repositories {
+        mavenInstaller()
     }
 }
 
@@ -74,11 +81,11 @@ task('incrementVersionName') << {
     def manifestText = manifestFile.getText()
     def matcherVersionNumber = patternVersionNumber.matcher(manifestText)
     matcherVersionNumber.find()
-    def majorVersion = Integer.parseInt(matcherVersionNumber.group(1))
-    def minorVersion = Integer.parseInt(matcherVersionNumber.group(2))
-    def pointVersion = Integer.parseInt(matcherVersionNumber.group(3))
+//    def majorVersion = Integer.parseInt(matcherVersionNumber.group(1))
+//    def minorVersion = Integer.parseInt(matcherVersionNumber.group(2))
+//    def pointVersion = Integer.parseInt(matcherVersionNumber.group(3))
     def buildVersion = Integer.parseInt(matcherVersionNumber.group(4))
-    def mNextVersionName = majorVersion + "." + minorVersion + "." + pointVersion + "." + (buildVersion + 1)
+    def mNextVersionName = versionMajor + "." + versionMinor + "." + versionPatch + "." + (buildVersion + 1)
     def manifestContent = matcherVersionNumber.replaceAll("versionName=\"" + mNextVersionName + "\"")
     manifestFile.write(manifestContent)
 }
