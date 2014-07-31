@@ -9,18 +9,13 @@ buildscript {
   }
 }
 
-// Manifest version information!
-def versionMajor = 0
-def versionMinor = 5
-def versionPatch = 0
-def versionBuild = 0 // bump for dogfood builds, public betas, etc.
-
 apply plugin: 'android-sdk-manager'
-apply plugin: 'android'
+apply plugin: 'com.android.library'
 apply plugin: 'hugo'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -44,9 +39,6 @@ android {
   defaultConfig {
     minSdkVersion 14
     targetSdkVersion 20
-
-    versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
-    versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
     buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
     buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""

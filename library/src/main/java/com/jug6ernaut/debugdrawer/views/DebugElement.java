@@ -14,9 +14,10 @@ import com.jug6ernaut.debugdrawer.R;
 public abstract class DebugElement<T,V extends View> {
     protected final Context context;
     private String name;
-    V actionView;
-    TextView titleView;
-    boolean isEnabled = true;
+    private V actionView;
+    private TextView titleView;
+    private boolean isEnabled = true;
+    private boolean isAttached = false;
 
     public DebugElement(Context context, String name){
         this.context = context;
@@ -50,6 +51,7 @@ public abstract class DebugElement<T,V extends View> {
     }
 
     public void attach(GridLayout gridLayout){
+        isAttached = true;
         init(gridLayout);
         gridLayout.addView(getTitleView());
         gridLayout.addView(getActionView());
@@ -60,6 +62,8 @@ public abstract class DebugElement<T,V extends View> {
         if(actionView != null)
             actionView.setEnabled(enable);
     }
+
+    public Boolean isAttached() { return isAttached; }
 
     public Boolean isEnabled(){
         return isEnabled;

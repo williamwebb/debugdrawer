@@ -36,7 +36,6 @@ public class DebugDrawer {
     GridLayout debugAdditional;
     ViewGroup content;
     View contextualTitleView;
-    ImageView applicationIconView;
 
     Activity drawerContext;
 
@@ -56,11 +55,13 @@ public class DebugDrawer {
     public void attach(View contentView){
         init(drawerContext);
         content.addView(contentView);
+        postAttach();
     }
 
     public void attach(int contentView){
         init(drawerContext);
         drawerContext.getLayoutInflater().inflate(contentView, content);
+        postAttach();
     }
 
     private void init(final Activity activity){
@@ -124,8 +125,9 @@ public class DebugDrawer {
         contextualTitleView = findById(drawerContext, R.id.debug_contextual_title);
         contextualListView = findById(drawerContext, R.id.debug_contextual_list);
 
-        applicationIconView = findById(drawerContext, R.id.debug_icon);
-        applicationIconView.setImageResource(drawerContext.getApplicationInfo().icon);
+        ((ImageView)findById(drawerContext, R.id.debug_icon)).setImageResource(drawerContext.getApplicationInfo().icon);
     }
+
+    protected void postAttach(){};
 
 }

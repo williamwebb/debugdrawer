@@ -22,12 +22,15 @@ public class DemoActivity extends Activity {
         testGroup.addElement(new ToggleElement("ToggleElement",this) {
             @Override
             public void onAction(Boolean aBoolean) {
+                System.out.println("onAction: " + aBoolean);
+
                 Toast.makeText(DemoActivity.this,"Toggle: " + aBoolean,Toast.LENGTH_SHORT).show();
             }
         });
         testGroup.addElement(new SpinnerElement(this,"SpinnerElement",R.array.levels_entries) {
             @Override
             public void onAction(String s) {
+                System.out.println("onAction: " + s);
                 Toast.makeText(DemoActivity.this,"Spinner: " + s,Toast.LENGTH_SHORT).show();
             }
         });

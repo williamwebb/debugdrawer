@@ -14,6 +14,7 @@ import com.jug6ernaut.debugdrawer.R;
  */
 public abstract class SpinnerElement extends DebugElement<String,Spinner> {
     private String[] elements;
+    private boolean isFirst = true; // used to skip first event that is always fired...
 
     public SpinnerElement(Context context, String name, String[] elements) {
         super(context, name);
@@ -43,7 +44,8 @@ public abstract class SpinnerElement extends DebugElement<String,Spinner> {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                onAction(elements[position]);
+                if(!isFirst) onAction(elements[position]);
+                else isFirst = false;
             }
 
             @Override
