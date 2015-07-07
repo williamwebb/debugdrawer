@@ -17,4 +17,4 @@ HEAVILY inspired/built off of JakeWharton's awesome work in [u2020](https://gith
                 new GhostModule())
 	    .bind(this);
 
-![](ss.png)
+![](vid.gif)
