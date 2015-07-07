@@ -4,5 +4,8 @@
     <declare-styleable name="SeekBarPreference">
         <attr name="max" format="integer" />
     </declare-styleable>
-
+    <declare-styleable name="DragLinearLayout">
+        <attr name="scrollSensitiveHeight" format="dimension" />
+        <attr name="placeholderView" format="reference" />
+    </declare-styleable>
 </resources>

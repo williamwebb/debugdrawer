@@ -55,4 +55,7 @@
         <item>Assert</item>
     </string-array>
 
+  <string name="no_intent_handler">
+    There are no applications available to handle this action.
+  </string>
 </resources>

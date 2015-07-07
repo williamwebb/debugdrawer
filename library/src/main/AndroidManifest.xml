@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.jug6ernaut.debugdrawer"
-          android:versionCode="139"
-          android:versionName="0.5.1.159">
+          android:versionCode="421"
+          android:versionName="0.5.1.454">
 
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="20"/>
-
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
 </manifest>

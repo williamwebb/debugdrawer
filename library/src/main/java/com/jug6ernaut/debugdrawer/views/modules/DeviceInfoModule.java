@@ -1,28 +1,32 @@
-package com.jug6ernaut.debugdrawer.views.groups;
+package com.jug6ernaut.debugdrawer.views.modules;
 
 import android.app.Activity;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import com.jug6ernaut.debugdrawer.DebugView;
 import com.jug6ernaut.debugdrawer.Strings;
-import com.jug6ernaut.debugdrawer.views.DebugGroup;
+import com.jug6ernaut.debugdrawer.views.DebugModule;
 import com.jug6ernaut.debugdrawer.views.TextElement;
 
 /**
  * Created by williamwebb on 7/2/14.
  */
-public class DeviceInfoGroup extends DebugGroup {
-    public DeviceInfoGroup(Activity activity) {
-        super("Device Information", activity);
+public class DeviceInfoModule extends DebugModule {
+    public DeviceInfoModule() {
+        super("Device Information");
+    }
 
-        DisplayMetrics dm = activity.getResources().getDisplayMetrics();
-        String densityBucket = getDensityString(dm);
+    @Override
+    protected void onAttach(Activity activity, DebugView parent) {
+	    DisplayMetrics dm = activity.getResources().getDisplayMetrics();
+	    String densityBucket = getDensityString(dm);
 
-        addElement(new TextElement(activity, "Make", Strings.truncateAt(Build.MANUFACTURER, 20)));
-        addElement(new TextElement(activity, "Model", Strings.truncateAt(Build.MODEL, 20)));
-        addElement(new TextElement(activity, "Resolution", dm.heightPixels + "x" + dm.widthPixels));
-        addElement(new TextElement(activity, "Density", dm.densityDpi + "dpi (" + densityBucket + ")"));
-        addElement(new TextElement(activity, "Release", Build.VERSION.RELEASE));
-        addElement(new TextElement(activity, "API", String.valueOf(Build.VERSION.SDK_INT)));
+	    addElement(new TextElement("Make", Strings.truncateAt(Build.MANUFACTURER, 20)));
+	    addElement(new TextElement("Model", Strings.truncateAt(Build.MODEL, 20)));
+	    addElement(new TextElement("Resolution", dm.heightPixels + "x" + dm.widthPixels));
+	    addElement(new TextElement("Density", dm.densityDpi + "dpi (" + densityBucket + ")"));
+	    addElement(new TextElement("Release", Build.VERSION.RELEASE));
+	    addElement(new TextElement("API", String.valueOf(Build.VERSION.SDK_INT)));
     }
 
     private static String getDensityString(DisplayMetrics displayMetrics) {

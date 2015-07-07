@@ -1,49 +1,69 @@
 package com.jug6ernaut.debugdrawer.views;
 
 import android.content.Context;
-import android.view.ContextThemeWrapper;
-import android.view.Gravity;
+import android.view.*;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import com.jug6ernaut.debugdrawer.R;
+import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
 
 /**
  * Created by williamwebb on 6/28/14.
  */
-public abstract class ToggleElement extends DebugElement<Boolean,Switch>{
+public abstract class ToggleElement extends DebugElement {
 
-    private Boolean checked = false;
+    private       Switch aSwitch;
+    private final String title;
+    private BooleanPreference checked;
+    private boolean defaultValue;
 
-    public ToggleElement(String name, Context context) {
-        super(context,name);
+    public ToggleElement(String title) {
+        this(title, false, true);
     }
-    public ToggleElement(String name, Context context, boolean checked) {
-        super(context,name);
-        this.checked = checked;
+
+    public ToggleElement(String title, boolean checked, boolean enabled) {
+        this.title = title;
+        this.defaultValue = checked;
+        setEnabled(enabled);
     }
 
-    protected Switch createView(){
-//        Switch swi = (Switch) LayoutInflater.from(context).inflate(R.layout.debug_template_switch,null);
-        Switch swi = new Switch(new ContextThemeWrapper(context,R.style.Widget_U2020_DebugDrawer_RowWidget));
-        swi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    public abstract void onSwitch(boolean state);
+
+    @Override
+    public View onCreateView(DebugModule parent, LayoutInflater inflater, ViewGroup root) {
+        final Context context = root.getContext();
+        checked = new BooleanPreference(
+                context.getSharedPreferences(parent.getTitle(),Context.MODE_PRIVATE),
+                getTitle(),
+                defaultValue);
+
+        aSwitch = new Switch(new ContextThemeWrapper(context, R.style.Widget_U2020_DebugDrawer_RowWidget));
+        aSwitch.setText(title);
+        aSwitch.setChecked(checked.get());
+        aSwitch.setEnabled(isEnabled());
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                onAction(isChecked);
+                checked.set(isChecked);
+                onSwitch(isChecked);
             }
         });
-        swi.setGravity(Gravity.START | Gravity.END | Gravity.CENTER_VERTICAL); // "start|end|center_vertical"
-        swi.setChecked(isChecked());
-        return swi;
+        aSwitch.setGravity(Gravity.START | Gravity.END | Gravity.CENTER_VERTICAL); // "start|end|center_vertical"
+        return aSwitch;
     }
 
-    public void setChecked(boolean checked){
-        this.checked = checked;
-        if(getActionView() != null)
-            getActionView().setChecked(checked);
+    public void setChecked(boolean checked) {
+        if( this.checked != null ) this.checked.set(checked);
+        if(aSwitch != null) aSwitch.setChecked(checked);
+        else defaultValue = checked;
     }
 
-    public Boolean isChecked(){
-        if(getActionView() == null) return checked;
-        else return getActionView().isChecked();
+    public boolean isChecked(){
+        if(aSwitch != null) return aSwitch.isChecked();
+        else return defaultValue;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

@@ -1,37 +1,36 @@
 //import com.android.builder.core.BuilderConstants
-
-import java.util.regex.Pattern;
-
 buildscript {
     repositories {  mavenCentral() }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'com.jakewharton.hugo:hugo-plugin:1.1.+'
-        classpath 'com.github.dcendents:android-maven-plugin:1.0'
+//        classpath 'com.github.dcendents:android-maven-plugin:1.0'
     }
 }
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
 apply plugin: 'hugo'
-apply plugin: 'android-maven' // allows for gradle install to work, to install to local repo
+//apply plugin: 'android-maven' // allows for gradle install to work, to install to local repo
 
 repositories { mavenCentral() }
 dependencies {
-    compile 'com.android.support:support-v13:20.0.0'
-    compile 'com.jakewharton:butterknife:5.0.1'
-    compile 'com.jakewharton.timber:timber:2.2.2'
+    compile 'com.android.support:support-v13:22.2.0'
+    compile 'com.android.support:percent:22.2.0'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton.timber:timber:3.1.0'
     compile 'com.jakewharton.madge:madge:1.1.1'
     compile 'com.jakewharton.scalpel:scalpel:1.1.1'
+    compile 'com.mattprecious.telescope:telescope:1.4.0@aar'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
 }
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20"
+    compileSdkVersion 22
+    buildToolsVersion '23.0.0 rc2'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -40,7 +39,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 20
+        targetSdkVersion 22
 
         buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
@@ -57,4 +56,4 @@ tasks.whenTaskAdded { task ->
     }
 }
 
-apply from: 'https://raw.github.com/6thSigma/gradle-mvn-push/master/gradle-mvn-push.gradle'
+//apply from: 'https://raw.github.com/6thSigma/gradle-mvn-push/master/gradle-mvn-push.gradle'

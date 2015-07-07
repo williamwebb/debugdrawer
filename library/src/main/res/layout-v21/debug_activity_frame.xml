@@ -6,6 +6,7 @@
         android:id="@+id/debug_drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         >
         <com.mattprecious.telescope.TelescopeLayout
                 android:id="@+id/telescope_container"
@@ -13,6 +14,7 @@
                 android:layout_height="match_parent"
                 app:pointerCount="0"
                 app:progressColor="#FF5722"
+                android:fitsSystemWindows="true"
                 >
                 <com.jakewharton.madge.MadgeFrameLayout
                         android:id="@+id/madge_container"

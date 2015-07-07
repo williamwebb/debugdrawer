@@ -1,71 +1,51 @@
 package com.jug6ernaut.debugdrawer.views;
 
-import android.content.Context;
-import android.view.ContextThemeWrapper;
-import android.view.Gravity;
+import android.app.Activity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.GridLayout;
-import android.widget.TextView;
-import com.jug6ernaut.debugdrawer.R;
+import android.view.ViewGroup;
 
 /**
  * Created by williamwebb on 6/28/14.
  */
-public abstract class DebugElement<T,V extends View> {
-    protected final Context context;
-    private String name;
-    private V actionView;
-    private TextView titleView;
-    private boolean isEnabled = true;
-    private boolean isAttached = false;
+public abstract class DebugElement {
 
-    public DebugElement(Context context, String name){
-        this.context = context;
-        this.name = name;
-    }
+	public abstract View onCreateView(DebugModule parent, LayoutInflater inflater, ViewGroup root);
+	protected void onViewCreated(View view){ }
+	protected void onModuleAttached(Activity activity, DebugModule module){ }
+	protected void onDrawerOpened() {}
+	protected void onDrawerClosed() {}
+	protected void onActivityStart() {}
+	protected void onActivityStop() {}
 
-    public String getName(){
-        return name;
-    }
+	private boolean isEnabled  = true;
+	private View view;
+	private DebugModule parent;
 
-    public abstract void onAction(T t);
-    protected abstract V createView();
+	final View create(DebugModule parent, LayoutInflater inflater, ViewGroup root) {
+		this.parent = parent;
+		this.view = onCreateView(parent, inflater, root);
+		view.setEnabled(isEnabled());
+		onViewCreated(view);
 
-    public void init(GridLayout gridLayout){
-//        TextView title = (TextView) LayoutInflater.from(context).inflate(R.layout.debug_template_title,null);
-        titleView = new TextView(new ContextThemeWrapper(context,R.style.Widget_U2020_DebugDrawer_RowTitle));
-        titleView.setTextAppearance(context, R.style.Widget_U2020_DebugDrawer_RowTitle);
-        titleView.setGravity(Gravity.START | Gravity.END | Gravity.CENTER_VERTICAL); // "start|end|center_vertical"
-        titleView.setText(name);
+		return view;
+	}
 
-        actionView = createView();
-        actionView.setEnabled(isEnabled());
-    }
+	public DebugModule getParent() {
+		return parent;
+	}
 
-    public V getActionView(){
-        return actionView;
-    }
+	public void setEnabled(boolean enable) {
+		if(view != null) view.setEnabled(enable);
+		this.isEnabled = enable;
+	}
 
-    public TextView getTitleView(){
-        return titleView;
-    }
+	public Boolean isEnabled() {
+		return isEnabled;
+	}
 
-    public void attach(GridLayout gridLayout){
-        isAttached = true;
-        init(gridLayout);
-        gridLayout.addView(getTitleView());
-        gridLayout.addView(getActionView());
-    }
+	public boolean attached() {
+		return parent != null;
+	}
 
-    public void setEnabled(boolean enable){
-        this.isEnabled = enable;
-        if(actionView != null)
-            actionView.setEnabled(enable);
-    }
-
-    public Boolean isAttached() { return isAttached; }
-
-    public Boolean isEnabled(){
-        return isEnabled;
-    }
 }

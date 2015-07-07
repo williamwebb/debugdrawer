@@ -1,4 +1,4 @@
-package com.jug6ernaut.debugdrawer;
+package com.jakewharton.u2020.ui.debug;
 
 import android.view.View;
 import android.view.ViewGroup;

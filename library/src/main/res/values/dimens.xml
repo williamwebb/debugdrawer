@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="main_switch_margin_right">16dp</dimen>
+    <dimen name="downwards_drop_shadow_height">16dp</dimen>
 </resources>

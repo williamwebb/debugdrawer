@@ -1,133 +1,203 @@
 package com.jug6ernaut.debugdrawer;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.PowerManager;
+import android.view.*;
+import android.widget.FrameLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
+import com.jakewharton.scalpel.ScalpelFrameLayout;
+import com.jakewharton.u2020.ui.debug.ContextualDebugActions;
+import com.jakewharton.u2020.ui.debug.DebugDrawerLayout;
+import com.jakewharton.u2020.ui.debug.HierarchyTreeChangeListener;
 import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
-import com.jug6ernaut.debugdrawer.views.DebugGroup;
-import com.jug6ernaut.debugdrawer.views.groups.*;
+import com.jug6ernaut.debugdrawer.views.DebugElement;
+import com.jug6ernaut.debugdrawer.views.DebugModule;
+import com.mattprecious.telescope.TelescopeLayout;
+import com.squareup.leakcanary.LeakCanary;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.Hashtable;
+import java.util.Map;
 
+import static android.content.Context.POWER_SERVICE;
+import static android.os.PowerManager.*;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static butterknife.ButterKnife.findById;
 
+public final class DebugDrawer {
+	private BooleanPreference seenDebugDrawer;
+	private Map<String, DebugModule> moduleMap = new Hashtable<>();
 
-/**
- * Created by williamwebb on 6/2/14.
- */
-public class DebugDrawer {
+	public DebugDrawer modules(DebugModule... modules) {
+		for (DebugModule module : modules) {
+			String id = module.getTitle();
+			DebugModule m = moduleMap.get(id);
+			if(m == null) {
+				moduleMap.put(id,module);
+			} else {
+				m.addModule(module);
+			}
+		}
+		return this;
+	}
 
-    private BooleanPreference seenDebugDrawer;
+	public DebugDrawer elements(String groupName, DebugElement... elements) {
+		DebugModule m = moduleMap.get(groupName);
+		if(m == null) {
+			DebugModule module = new EmptyModule(groupName);
+			module.addElement(elements);
+			moduleMap.put(groupName,module);
+		} else {
+			m.addElement(elements);
+		}
+		return this;
+	}
 
-    DrawerLayout drawerLayout;
-    LinearLayout contextualListView;
-    GridLayout debugAdditional;
-    ViewGroup content;
-    View contextualTitleView;
+	public void bind(final Activity activity) {
+		LeakCanary.install(activity.getApplication());
 
-    Activity drawerContext;
+		ViewGroup rootView = (ViewGroup) activity.findViewById(android.R.id.content);
 
-    List<DebugGroup> additionalDebugGroups = new ArrayList<>();
+		//get the content view
+		View contentView = rootView.getChildAt(0);
+		boolean alreadyInflated = contentView instanceof DebugDrawerLayout;
 
-    public DebugDrawer(Activity activity){
-        this(activity, false);
-    }
+		DebugDrawerLayout mDrawerLayout = (DebugDrawerLayout) activity.getLayoutInflater().inflate(R.layout.debug_activity_frame, rootView, false);
 
-    public DebugDrawer(Activity activity, boolean addDefaultGroups){
-        this.drawerContext = activity;
-        if(addDefaultGroups){
-            addDefaultGroups();
-        }
-    }
+		final ViewHolder viewHolder = new ViewHolder(mDrawerLayout);
 
-    public void attach(View contentView){
-        init(drawerContext);
-        content.addView(contentView);
-        postAttach();
-    }
+		//only add the new layout if it wasn't done before
+		if (!alreadyInflated) {
+			// remove the contentView
+			rootView.removeView(contentView);
+		} else {
+			//if it was already inflated we have to clean up again
+			rootView.removeAllViews();
+		}
 
-    public void attach(int contentView){
-        init(drawerContext);
-        drawerContext.getLayoutInflater().inflate(contentView, content);
-        postAttach();
-    }
+		//create the layoutParams to use for the contentView
+		FrameLayout.LayoutParams layoutParamsContentView = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
 
-    private void init(final Activity activity){
-        this.drawerContext = activity;
-        activity.setContentView(R.layout.debug_activity_frame);
+		//add the contentView to the drawer content frameLayout
+		viewHolder.content.addView(contentView, layoutParamsContentView);
 
-        ViewGroup drawer = findById(activity, R.id.debug_drawer);
-        LayoutInflater.from(activity).inflate(R.layout.debug_drawer_content, drawer);
+		//add the drawerLayout to the root
+		rootView.addView(mDrawerLayout, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
-        ViewGroup content = findById(activity,R.id.debug_content);
+		loadPrefs(activity);
 
-        // Set up the contextual actions to watch views coming in and out of the content area.
-        Set<ContextualDebugActions.DebugAction<?>> debugActions = Collections.emptySet();
-        ContextualDebugActions contextualActions = new ContextualDebugActions(this, debugActions);
-        content.setOnHierarchyChangeListener(HierarchyTreeChangeListener.wrap(contextualActions));
-        setupAdditional();
+		final Context drawerContext = new ContextThemeWrapper(activity, R.style.Theme_U2020_Debug);
+		final DebugView debugView = new DebugView(drawerContext);
+		ScrollView sv = findById(activity, R.id.debug_drawer);
+		debugView.contextualListView.setContainerScrollView(sv);
 
-        loadPrefs();
-        loadViews();
+		viewHolder.debugDrawer.addView(debugView);
 
-        for(DebugGroup group : additionalDebugGroups){
-            group.attach(debugAdditional);
-        }
+		// Set up the contextual actions to watch views coming in and out of the content area.
+		ContextualDebugActions contextualActions = debugView.getContextualDebugActions();
+		contextualActions.setActionClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				viewHolder.drawerLayout.closeDrawers();
+			}
+		});
+		viewHolder.content.setOnHierarchyChangeListener(HierarchyTreeChangeListener.wrap(contextualActions));
 
-        if (!seenDebugDrawer.get()) {
-            drawerLayout.postDelayed(new Runnable() {
-                @Override public void run() {
-                    drawerLayout.openDrawer(Gravity.END);
-                    Toast.makeText(activity, R.string.debug_drawer_welcome, Toast.LENGTH_LONG).show();
-                }
-            }, 1000);
-            seenDebugDrawer.set(true);
-        }
-    }
+		viewHolder.drawerLayout.setDrawerShadow(R.drawable.debug_drawer_shadow, Gravity.RIGHT);
 
-    private void addDefaultGroups(){
-        addDebugGroup(new GhostGroup(drawerContext));
-        addDebugGroup(new ScalpelGroup(drawerContext));
-        addDebugGroup(new MadgeGroup(drawerContext));
-        addDebugGroup(new DeviceInfoGroup(drawerContext));
-        addDebugGroup(new BuildGroup(drawerContext));
-    }
+		viewHolder.drawerLayout.setDrawerListener(new DebugDrawerLayout.DrawerListener() {
+			@Override public void onDrawerSlide(View drawerView, float slideOffset) { }
+			@Override public void onDrawerStateChanged(int newState) { }
 
-    private void setupAdditional(){
-        debugAdditional = findById(drawerContext,R.id.debug_root);
-    }
+			@Override
+			public void onDrawerOpened(View drawerView) {
+				for(DebugModule group : moduleMap.values()){
+					group.onDrawerOpened();
+				}
+			}
+			@Override
+			public void onDrawerClosed(View drawerView) {
+				for(DebugModule group : moduleMap.values()){
+					group.onDrawerClosed();
+				}
+			}
+		});
 
-    public void addDebugGroup(DebugGroup group){
-        additionalDebugGroups.add(group);
-    }
 
-    private void loadPrefs(){
-        SharedPreferences prefs = drawerContext.getSharedPreferences("debug_prefs", Context.MODE_PRIVATE);
-        seenDebugDrawer = new BooleanPreference(prefs,"seenDebugDrawer");
-    }
+		// Attach all modules to the DebugView
+		for(DebugModule m : moduleMap.values()) {
+			m.attach(activity,debugView);
+		}
 
-    void loadViews(){
-        drawerLayout = findById(drawerContext, R.id.debug_drawer_layout);
-        content = findById(drawerContext, R.id.debug_content);
+		// If you have not seen the debug drawer before, show it with a message
+		if (!seenDebugDrawer.get()) {
+			viewHolder.drawerLayout.postDelayed(new Runnable() {
+				@Override public void run() {
+					viewHolder.drawerLayout.openDrawer(Gravity.RIGHT);
+					Toast.makeText(drawerContext, R.string.debug_drawer_welcome, Toast.LENGTH_LONG).show();
+				}
+			}, 1000);
+			seenDebugDrawer.set(true);
+		}
 
-        contextualTitleView = findById(drawerContext, R.id.debug_contextual_title);
-        contextualListView = findById(drawerContext, R.id.debug_contextual_list);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			// Remove the status bar color. The DrawerLayout is responsible for drawing it from now on.
+			setStatusBarColor(activity.getWindow());
+		}
 
-        ((ImageView)findById(drawerContext, R.id.debug_icon)).setImageResource(drawerContext.getApplicationInfo().icon);
-    }
+		riseAndShine(activity);
+	}
 
-    protected void postAttach(){};
+	/**
+	 * Show the activity over the lock-screen and wake up the device. If you launched the app manually
+	 * both of these conditions are already true. If you deployed from the IDE, however, this will
+	 * save you from hundreds of power button presses and pattern swiping per day!
+	 */
+	private static void riseAndShine(Activity activity) {
+		activity.getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED);
 
+		PowerManager power = (PowerManager) activity.getSystemService(POWER_SERVICE);
+		PowerManager.WakeLock lock =
+				power.newWakeLock(FULL_WAKE_LOCK | ACQUIRE_CAUSES_WAKEUP | ON_AFTER_RELEASE, "wakeup!");
+		lock.acquire();
+		lock.release();
+	}
+
+	private void loadPrefs(Context context){
+		SharedPreferences prefs = context.getSharedPreferences("debug_prefs", Context.MODE_PRIVATE);
+		seenDebugDrawer = new BooleanPreference(prefs,"seenDebugDrawer");
+	}
+
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	private static void setStatusBarColor(Window window) {
+		window.setStatusBarColor(Color.TRANSPARENT);
+	}
+
+	static class ViewHolder {
+		DebugDrawerLayout  drawerLayout;
+		ViewGroup          debugDrawer;
+		TelescopeLayout    telescopeLayout;
+		ScalpelFrameLayout content;
+
+		public ViewHolder(View view) {
+			drawerLayout = findById(view, R.id.debug_drawer_layout);
+			debugDrawer = findById(view, R.id.debug_drawer);
+			telescopeLayout = findById(view, R.id.telescope_container);
+			content = findById(view, R.id.debug_content);
+		}
+	}
+
+	private class EmptyModule extends DebugModule {
+
+		public EmptyModule(String title) {
+			super(title);
+		}
+		@Override public void onAttach(Activity activity, DebugView parent) { }
+	}
 }

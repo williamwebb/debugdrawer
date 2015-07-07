@@ -3,14 +3,12 @@ buildscript {
         mavenCentral()
     }
   dependencies {
-      classpath 'com.android.tools.build:gradle:0.12.+'
-      classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+      classpath 'com.android.tools.build:gradle:1.2.3'
       classpath 'com.jakewharton.hugo:hugo-plugin:1.1.+'
   }
 }
 
-apply plugin: 'android-sdk-manager'
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'hugo'
 
 repositories {
@@ -28,8 +26,8 @@ def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone(
 def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
 
 android {
-  compileSdkVersion 20
-  buildToolsVersion '20.0.0'
+  compileSdkVersion 22
+  buildToolsVersion '23.0.0 rc2'
 
   dexOptions {
     // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
@@ -37,8 +35,8 @@ android {
   }
 
   defaultConfig {
-    minSdkVersion 14
-    targetSdkVersion 20
+    minSdkVersion 16
+    targetSdkVersion 22
 
     buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
     buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""

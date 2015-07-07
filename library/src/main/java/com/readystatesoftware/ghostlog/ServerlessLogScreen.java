@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,10 +30,14 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.*;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ListView;
 import com.jug6ernaut.debugdrawer.R;
 import com.readystatesoftware.ghostlog.integration.Constants;
+import timber.log.Timber;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -100,7 +105,6 @@ public class ServerlessLogScreen implements
 
             @Override
             public void onActivityResumed(Activity activity) {
-                System.out.println("onActivityResumed:" + activity);
                 if (sWasRunning) {
                     start();
                     sWasRunning = false;
@@ -109,7 +113,6 @@ public class ServerlessLogScreen implements
 
             @Override
             public void onActivityPaused(Activity activity) {
-                System.out.println("onActivityPaused:" + activity);
                 if (sIsRunning) {
                     stop(activity);
                     sWasRunning = true;
@@ -150,13 +153,27 @@ public class ServerlessLogScreen implements
     }
 
     private void createSystemWindow(Activity activity) {
+//        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+//                WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+//                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+//                PixelFormat.TRANSLUCENT);
+
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        Timber.d("Width: " + width);
+        Timber.d("Height: " + height);
         final WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-            viewWidth,
-            viewHeight,
+            width,
+            (height/2),
             0,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             PixelFormat.TRANSLUCENT
         );
+        lp.y = (width / 2);
         lp.gravity = viewGravity;
 
         setSystemViewBackground(mPrefs.getInt(getString(R.string.pref_bg_opacity), 0));
