@@ -33,22 +33,13 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.AccessibilityDelegateCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.KeyEventCompat;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewGroupCompat;
+import android.support.v4.view.*;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.view.*;
 import android.view.accessibility.AccessibilityEvent;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
@@ -103,7 +94,6 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
 	@Retention(RetentionPolicy.SOURCE)
 	private @interface EdgeGravity {}
 
-
 	private static final int MIN_DRAWER_MARGIN = 64; // dp
 
 	private static final int DEFAULT_SCRIM_COLOR = 0x99000000;
@@ -127,15 +117,12 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
 
 	private static final float TOUCH_SLOP_SENSITIVITY = 1.f;
 
-	private static final int[] LAYOUT_ATTRS = new int[] {
-			android.R.attr.layout_gravity
-	};
+	private static final int[] LAYOUT_ATTRS = new int[]{android.R.attr.layout_gravity};
 
 	/** Whether we can use NO_HIDE_DESCENDANTS accessibility importance. */
 	private static final boolean CAN_HIDE_DESCENDANTS = Build.VERSION.SDK_INT >= 19;
 
-	private final ChildAccessibilityDelegate mChildAccessibilityDelegate =
-			new ChildAccessibilityDelegate();
+	private final ChildAccessibilityDelegate mChildAccessibilityDelegate = new ChildAccessibilityDelegate();
 
 	private int mMinDrawerMargin;
 
@@ -143,8 +130,8 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
 	private float mScrimOpacity;
 	private Paint mScrimPaint = new Paint();
 
-	private final ViewDragHelper mLeftDragger;
-	private final ViewDragHelper mRightDragger;
+	private final ViewDragHelper   mLeftDragger;
+	private final ViewDragHelper   mRightDragger;
 	private final ViewDragCallback mLeftCallback;
 	private final ViewDragCallback mRightCallback;
 	private int mDrawerState;
