@@ -28,20 +28,20 @@ Download [the latest JAR][1] or grab via Maven:
 <dependency>
   <groupId>com.jug6ernaut</groupId>
   <artifactId>debugdrawer</artifactId>
-  <version>0.5.1</version>
+  <version>0.6.0</version>
 </dependency>
 ```
 or Gradle:
 
 ```groovy
-compile 'com.jug6eranut:debugdrawer:0.5.1'
+compile 'com.jug6eranut:debugdrawer:0.6.0'
 ```
 
 
 License
 -------
 
-    Copyright 2014 William Webb
+    Copyright 2015 William Webb
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
