@@ -1,14 +1,22 @@
-debugdrawer
+DebugDrawer
 ===========
 
-HEAVILY inspired/built off of JakeWharton's awesome work in [u2020](https://github.com/JakeWharton/u2020).
+HEAVILY inspired/built off of JakeWharton's awesome work in [u2020](https://github.com/JakeWharton/u2020) DebugDrawer is small but highly extendable library built to allow developers to easily add a DebugDrawer to their Android applications.
+
+Overview
+========
+In your applications you often need to change certain configuration settings, monitor internal state or simply try to understand what, DebugDrawer allows you to easily add a slide out drawer with the ability to do this. Classes are provided to allow you to easily create your own additions to customize to your needs.
+	    
+Usage
+=====
 
 	    new DebugDrawer()
             .elements("Network",new NetworkWatcher(this))
 		    .elements("UI", 
                 new TelescopeElement(), 
                 new AnimationSpeedElement(), 
-                new LeakCanaryElement())
+                new LeakCanaryElement(),
+                new RiseAndShineElement())
 		    .modules(
                 new BuildModule(), 
                 new DeviceInfoModule(), 
@@ -28,20 +36,20 @@ Download [the latest JAR][1] or grab via Maven:
 <dependency>
   <groupId>com.jug6ernaut</groupId>
   <artifactId>debugdrawer</artifactId>
-  <version>0.6.0</version>
+  <version>0.6.1</version>
 </dependency>
 ```
 or Gradle:
 
 ```groovy
-compile 'com.jug6eranut:debugdrawer:0.6.0'
+compile 'com.jug6eranut:debugdrawer:0.6.1'
 ```
 
 
 License
 -------
 
-    Copyright 2015 William Webb
+    Copyright 2014 William Webb
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
