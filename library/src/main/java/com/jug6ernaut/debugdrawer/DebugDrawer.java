@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.PowerManager;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
@@ -19,15 +18,11 @@ import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
 import com.jug6ernaut.debugdrawer.views.DebugElement;
 import com.jug6ernaut.debugdrawer.views.DebugModule;
 import com.mattprecious.telescope.TelescopeLayout;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.util.Hashtable;
 import java.util.Map;
 
-import static android.content.Context.POWER_SERVICE;
-import static android.os.PowerManager.*;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static butterknife.ButterKnife.findById;
 
 public final class DebugDrawer {
@@ -60,8 +55,6 @@ public final class DebugDrawer {
 	}
 
 	public void bind(final Activity activity) {
-		LeakCanary.install(activity.getApplication());
-
 		ViewGroup rootView = (ViewGroup) activity.findViewById(android.R.id.content);
 
 		//get the content view
@@ -150,23 +143,6 @@ public final class DebugDrawer {
 			// Remove the status bar color. The DrawerLayout is responsible for drawing it from now on.
 			setStatusBarColor(activity.getWindow());
 		}
-
-		riseAndShine(activity);
-	}
-
-	/**
-	 * Show the activity over the lock-screen and wake up the device. If you launched the app manually
-	 * both of these conditions are already true. If you deployed from the IDE, however, this will
-	 * save you from hundreds of power button presses and pattern swiping per day!
-	 */
-	private static void riseAndShine(Activity activity) {
-		activity.getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED);
-
-		PowerManager power = (PowerManager) activity.getSystemService(POWER_SERVICE);
-		PowerManager.WakeLock lock =
-				power.newWakeLock(FULL_WAKE_LOCK | ACQUIRE_CAUSES_WAKEUP | ON_AFTER_RELEASE, "wakeup!");
-		lock.acquire();
-		lock.release();
 	}
 
 	private void loadPrefs(Context context){

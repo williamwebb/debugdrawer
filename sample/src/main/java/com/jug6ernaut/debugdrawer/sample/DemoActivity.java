@@ -14,6 +14,7 @@ import com.jug6ernaut.debugdrawer.DebugDrawer;
 import com.jug6ernaut.debugdrawer.views.WatcherElement;
 import com.jug6ernaut.debugdrawer.views.elements.AnimationSpeedElement;
 import com.jug6ernaut.debugdrawer.views.elements.LeakCanaryElement;
+import com.jug6ernaut.debugdrawer.views.elements.RiseAndShineElement;
 import com.jug6ernaut.debugdrawer.views.elements.TelescopeElement;
 import com.jug6ernaut.debugdrawer.views.modules.*;
 
@@ -31,7 +32,8 @@ public class DemoActivity extends AppCompatActivity {
 		    .elements("UI",
                 new TelescopeElement(),
                 new AnimationSpeedElement(),
-                new LeakCanaryElement())
+                new LeakCanaryElement(),
+                new RiseAndShineElement())
 		    .modules(
                 new BuildModule(),
                 new DeviceInfoModule(),
@@ -65,6 +67,7 @@ public class DemoActivity extends AppCompatActivity {
 
     }
 
+    // Do not actually use this :) leaky leaky leaky
     private class NetworkWatcher extends WatcherElement {
         public NetworkWatcher(Context context) {
             super("Connection","");

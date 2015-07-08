@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.jug6ernaut.debugdrawer"
-          android:versionCode="436"
-          android:versionName="0.6.0.471">
+          android:versionCode="448"
+          android:versionName="0.6.1.482">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

@@ -1,16 +1,5 @@
 import java.util.regex.Pattern
 
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7'
-    }
-}
-
 allprojects {
 
     task('increaseVersionCode') << {
