@@ -42,7 +42,7 @@ Download [the latest JAR][1] or grab via Maven:
 or Gradle:
 
 ```groovy
-compile 'com.jug6eranut:debugdrawer:0.6.1'
+compile 'com.jug6ernaut:debugdrawer:0.6.1'
 ```
 
 
