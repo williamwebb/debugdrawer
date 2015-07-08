@@ -30,7 +30,7 @@ Usage
 Download
 --------
 
-Download [the latest JAR][1] or grab via Maven:
+Download [the latest JAR][2] or grab via Maven:
 
 ```xml
 <dependency>
@@ -66,3 +66,4 @@ License
     
     
 [1]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.jug6ernaut&a=debugdrawer&v=LATEST
+[2]: http://central.maven.org/maven2/com/jug6ernaut/debugdrawer/0.6.1/debugdrawer-0.6.1.aar
