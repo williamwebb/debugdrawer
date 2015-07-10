@@ -44,7 +44,7 @@ or Gradle:
 ```groovy
 compile 'com.jug6eranut:debugdrawer:0.6.1'
 ```
-
+For the current snapshot use version `0.6.2-SNAPSHOT` based on the `dev` branch.
 
 License
 -------
