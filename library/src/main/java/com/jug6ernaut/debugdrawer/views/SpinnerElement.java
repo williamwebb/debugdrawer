@@ -17,6 +17,8 @@ import com.jug6ernaut.debugdrawer.R;
 public abstract class SpinnerElement extends DebugElement {
 	private final String name;
 	private final String[] elements;
+    private Spinner spinner;
+    private ArrayAdapter<String> adapter;
 
 	public SpinnerElement(String name, String[] elements) {
 		this.name = name;
@@ -27,11 +29,11 @@ public abstract class SpinnerElement extends DebugElement {
 	@Override
 	public View onCreateView(DebugModule parent, LayoutInflater inflater, ViewGroup root) {
 		Context context = root.getContext();
-		Spinner spinner = (Spinner) inflater.inflate(R.layout.debug_template_spinner, null);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, elements); //selected item will look like a spinner set from XML
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner = (Spinner) inflater.inflate(R.layout.debug_template_spinner, null);
+        adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, elements); //selected item will look like a spinner set from XML
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setGravity(Gravity.START | Gravity.END | Gravity.CENTER_VERTICAL); // "start|end|center_vertical"
-        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -46,6 +48,12 @@ public abstract class SpinnerElement extends DebugElement {
 	    TextView nameView = new TextView(context);
 		nameView.setText(name);
         return TextElement.createDefaultLayout(nameView,spinner);
+    }
+
+    public void setSelection(String selection) {
+        if(spinner != null) {
+            spinner.setSelection(adapter.getPosition(selection));
+        }
     }
 
 }
