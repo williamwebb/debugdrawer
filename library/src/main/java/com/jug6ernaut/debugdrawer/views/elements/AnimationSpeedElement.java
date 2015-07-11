@@ -14,6 +14,7 @@ public class AnimationSpeedElement extends SpinnerElement {
 
 	public AnimationSpeedElement() {
 		super("Animations",toArray());
+		setRememberState(false);
 	}
 
 	@Override

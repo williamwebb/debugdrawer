@@ -5,17 +5,19 @@ import android.view.*;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import com.jug6ernaut.debugdrawer.R;
-import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
+import com.jug6ernaut.saber.Preference;
+import com.jug6ernaut.saber.Saber;
+import com.jug6ernaut.saber.preferences.BooleanPreference;
 
 /**
  * Created by williamwebb on 6/28/14.
  */
 public abstract class ToggleElement extends DebugElement {
 
-    private       Switch aSwitch;
-    private final String title;
-    private BooleanPreference checked;
-    private boolean defaultValue;
+    private       Switch            aSwitch;
+    private final String            title;
+    private       boolean           defaultValue;
+    @Preference   BooleanPreference checked;
 
     public ToggleElement(String title) {
         this(title, false, true);
@@ -32,10 +34,8 @@ public abstract class ToggleElement extends DebugElement {
     @Override
     public View onCreateView(DebugModule parent, LayoutInflater inflater, ViewGroup root) {
         final Context context = root.getContext();
-        checked = new BooleanPreference(
-                context.getSharedPreferences(parent.getTitle(),Context.MODE_PRIVATE),
-                getTitle(),
-                defaultValue);
+        Saber.inject(this,context);
+        if(!checked.isSet()) checked.set(defaultValue);
 
         aSwitch = new Switch(new ContextThemeWrapper(context, R.style.Widget_U2020_DebugDrawer_RowWidget));
         aSwitch.setText(title);

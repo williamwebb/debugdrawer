@@ -3,7 +3,6 @@ package com.jug6ernaut.debugdrawer;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.*;
@@ -14,9 +13,11 @@ import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.jakewharton.u2020.ui.debug.ContextualDebugActions;
 import com.jakewharton.u2020.ui.debug.DebugDrawerLayout;
 import com.jakewharton.u2020.ui.debug.HierarchyTreeChangeListener;
-import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
 import com.jug6ernaut.debugdrawer.views.DebugElement;
 import com.jug6ernaut.debugdrawer.views.DebugModule;
+import com.jug6ernaut.saber.Preference;
+import com.jug6ernaut.saber.Saber;
+import com.jug6ernaut.saber.preferences.BooleanPreference;
 import com.mattprecious.telescope.TelescopeLayout;
 
 import java.util.Hashtable;
@@ -26,15 +27,15 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static butterknife.ButterKnife.findById;
 
 public final class DebugDrawer {
-	private BooleanPreference seenDebugDrawer;
+	@Preference BooleanPreference seenDebugDrawer;
 	private Map<String, DebugModule> moduleMap = new Hashtable<>();
 
 	public DebugDrawer modules(DebugModule... modules) {
 		for (DebugModule module : modules) {
 			String id = module.getTitle();
 			DebugModule m = moduleMap.get(id);
-			if(m == null) {
-				moduleMap.put(id,module);
+			if (m == null) {
+				moduleMap.put(id, module);
 			} else {
 				m.addModule(module);
 			}
@@ -44,10 +45,10 @@ public final class DebugDrawer {
 
 	public DebugDrawer elements(String groupName, DebugElement... elements) {
 		DebugModule m = moduleMap.get(groupName);
-		if(m == null) {
+		if (m == null) {
 			DebugModule module = new EmptyModule(groupName);
 			module.addElement(elements);
-			moduleMap.put(groupName,module);
+			moduleMap.put(groupName, module);
 		} else {
 			m.addElement(elements);
 		}
@@ -61,7 +62,8 @@ public final class DebugDrawer {
 		View contentView = rootView.getChildAt(0);
 		boolean alreadyInflated = contentView instanceof DebugDrawerLayout;
 
-		DebugDrawerLayout mDrawerLayout = (DebugDrawerLayout) activity.getLayoutInflater().inflate(R.layout.debug_activity_frame, rootView, false);
+		DebugDrawerLayout mDrawerLayout = (DebugDrawerLayout) activity.getLayoutInflater().inflate(R.layout
+				.debug_activity_frame, rootView, false);
 
 		final ViewHolder viewHolder = new ViewHolder(mDrawerLayout);
 
@@ -146,8 +148,7 @@ public final class DebugDrawer {
 	}
 
 	private void loadPrefs(Context context){
-		SharedPreferences prefs = context.getSharedPreferences("debug_prefs", Context.MODE_PRIVATE);
-		seenDebugDrawer = new BooleanPreference(prefs,"seenDebugDrawer");
+		Saber.inject(this,context);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)

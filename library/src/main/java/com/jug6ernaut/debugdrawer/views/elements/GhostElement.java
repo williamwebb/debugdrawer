@@ -1,7 +1,6 @@
 package com.jug6ernaut.debugdrawer.views.elements;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,11 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import com.jug6ernaut.debugdrawer.R;
-import com.jug6ernaut.debugdrawer.preference.BooleanPreference;
 import com.jug6ernaut.debugdrawer.views.DebugElement;
 import com.jug6ernaut.debugdrawer.views.DebugModule;
+import com.jug6ernaut.saber.Preference;
+import com.jug6ernaut.saber.Saber;
+import com.jug6ernaut.saber.preferences.BooleanPreference;
 import com.readystatesoftware.ghostlog.GhostLogSettingsFragment;
 import com.readystatesoftware.ghostlog.ServerlessLogScreen;
 
@@ -22,15 +23,14 @@ public class GhostElement extends DebugElement {
 
     private final Activity activity;
     ServerlessLogScreen logScreen;
-    String GHOST_PREFS_TAG = "ghost_prefs";
-    BooleanPreference ghostEnabled;
-    Switch            toggle;
+    final String GHOST_PREFS_TAG = "ghost_prefs";
+    @Preference(GHOST_PREFS_TAG) BooleanPreference ghostEnabled;
+    Switch toggle;
 
     public GhostElement(Activity activity, int x, int y, int gravity) {
+        Saber.inject(this,activity);
         this.activity = activity;
         this.logScreen = new ServerlessLogScreen(activity, x, y, gravity);
-        this.ghostEnabled = new BooleanPreference(activity.getSharedPreferences(GHOST_PREFS_TAG, Context
-                .MODE_PRIVATE), "ghost_enabled");
     }
 
     public GhostElement(Activity activity) {
@@ -42,10 +42,10 @@ public class GhostElement extends DebugElement {
         if (!logScreen.isRunning()) {
             logScreen.start();
         }
-        if(toggle != null && !toggle.isChecked()) toggle.setChecked(true);
+        if (toggle != null && !toggle.isChecked()) toggle.setChecked(true);
     }
 
-    public void stop(){
+    public void stop() {
         ghostEnabled.set(false);
         logScreen.stop();
         if(toggle != null  && toggle.isChecked()) toggle.setChecked(false);
