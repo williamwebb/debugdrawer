@@ -30,7 +30,7 @@ Usage
 Download
 --------
 
-Download [the latest JAR][1] or grab via Maven:
+Download [the latest JAR][2] or grab via Maven:
 
 ```xml
 <dependency>
@@ -42,7 +42,7 @@ Download [the latest JAR][1] or grab via Maven:
 or Gradle:
 
 ```groovy
-compile 'com.jug6eranut:debugdrawer:0.6.1'
+compile 'com.jug6ernaut:debugdrawer:0.6.1'
 ```
 For the current snapshot use version `0.6.2-SNAPSHOT` based on the `dev` branch.
 
@@ -66,3 +66,4 @@ License
     
     
 [1]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.jug6ernaut&a=debugdrawer&v=LATEST
+[2]: http://central.maven.org/maven2/com/jug6ernaut/debugdrawer/0.6.1/debugdrawer-0.6.1.aar
