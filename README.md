@@ -36,15 +36,15 @@ Download [the latest JAR][2] or grab via Maven:
 <dependency>
   <groupId>com.jug6ernaut</groupId>
   <artifactId>debugdrawer</artifactId>
-  <version>0.6.1</version>
+  <version>0.6.2</version>
 </dependency>
 ```
 or Gradle:
 
 ```groovy
-compile 'com.jug6ernaut:debugdrawer:0.6.1'
+compile 'com.jug6ernaut:debugdrawer:0.6.2'
 ```
-For the current snapshot use version `0.6.2-SNAPSHOT` based on the `dev` branch.
+For the current snapshot use version `0.6.3-SNAPSHOT` based on the `dev` branch.
 
 License
 -------
