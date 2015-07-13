@@ -24,7 +24,7 @@ public class GhostElement extends DebugElement {
     private final Activity activity;
     ServerlessLogScreen logScreen;
     final String GHOST_PREFS_TAG = "ghost_prefs";
-    @Preference(GHOST_PREFS_TAG) BooleanPreference ghostEnabled;
+    @Preference(key = GHOST_PREFS_TAG) BooleanPreference ghostEnabled;
     Switch toggle;
 
     public GhostElement(Activity activity, int x, int y, int gravity) {
