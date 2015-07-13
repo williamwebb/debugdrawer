@@ -10,8 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.jug6ernaut.debugdrawer.R;
-import com.jug6ernaut.saber.Preference;
-import com.jug6ernaut.saber.Saber;
 import com.jug6ernaut.saber.preferences.StringPreference;
 
 /**
@@ -23,8 +21,7 @@ public abstract class SpinnerElement extends DebugElement {
     private       Spinner              spinner;
     private       ArrayAdapter<String> adapter;
     private       boolean              rememberState = true;
-
-    @Preference StringPreference currentValue;
+    private       StringPreference     currentValue;
 
     public SpinnerElement(String name, String[] elements) {
         this.name = name;
@@ -35,8 +32,9 @@ public abstract class SpinnerElement extends DebugElement {
     @Override
     public View onCreateView(DebugModule parent, LayoutInflater inflater, ViewGroup root) {
         Context context = root.getContext();
-        Saber.inject(this, context);
-
+        currentValue = new StringPreference(
+            context.getSharedPreferences(parent.getTitle(),Context.MODE_PRIVATE),
+            getKey());
         spinner = (Spinner) inflater.inflate(R.layout.debug_template_spinner, null);
         adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, elements); //selected item will
         // look like a spinner set from XML
@@ -79,4 +77,11 @@ public abstract class SpinnerElement extends DebugElement {
         }
     }
 
+    public String getTitle() {
+        return name;
+    }
+
+    public String getKey() {
+        return getParent().getTitle() + "_" + getTitle();
+    }
 }

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import com.jug6ernaut.debugdrawer.DebugDrawer;
+import com.jug6ernaut.debugdrawer.views.SpinnerElement;
 import com.jug6ernaut.debugdrawer.views.WatcherElement;
 import com.jug6ernaut.debugdrawer.views.elements.AnimationSpeedElement;
 import com.jug6ernaut.debugdrawer.views.elements.LeakCanaryElement;
@@ -33,7 +34,8 @@ public class DemoActivity extends AppCompatActivity {
                 new TelescopeElement(),
                 new AnimationSpeedElement(),
                 new LeakCanaryElement(),
-                new RiseAndShineElement())
+                new RiseAndShineElement(),
+                new aElement())
 		    .modules(
                 new BuildModule(),
                 new DeviceInfoModule(),
@@ -65,6 +67,17 @@ public class DemoActivity extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    private class aElement extends SpinnerElement {
+
+        public aElement() {
+            super("", new String[]{"1","2"});
+        }
+        @Override
+        public void onItemSelect(String item) {
+
+        }
     }
 
     // Do not actually use this :) leaky leaky leaky
