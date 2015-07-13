@@ -36,15 +36,15 @@ Download [the latest JAR][2] or grab via Maven:
 <dependency>
   <groupId>com.jug6ernaut</groupId>
   <artifactId>debugdrawer</artifactId>
-  <version>0.6.2</version>
+  <version>0.6.3</version>
 </dependency>
 ```
 or Gradle:
 
 ```groovy
-compile 'com.jug6ernaut:debugdrawer:0.6.2'
+compile 'com.jug6ernaut:debugdrawer:0.6.3'
 ```
-For the current snapshot use version `0.6.3-SNAPSHOT` based on the `dev` branch.
+For the current snapshot use version `0.6.4-SNAPSHOT` based on the `dev` branch.
 
 License
 -------
@@ -66,4 +66,4 @@ License
     
     
 [1]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.jug6ernaut&a=debugdrawer&v=LATEST
-[2]: http://central.maven.org/maven2/com/jug6ernaut/debugdrawer/0.6.1/debugdrawer-0.6.1.aar
+[2]: http://central.maven.org/maven2/com/jug6ernaut/debugdrawer/0.6.3/debugdrawer-0.6.3.aar
