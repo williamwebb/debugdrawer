@@ -22,7 +22,12 @@ android {
     }
 
     dependencies {
-        compile 'com.android.support:design:23.2.0'
+        compile ('com.android.support:design:23.2.0') {
+            exclude module: 'recyclerview-v7'
+            exclude module: 'support-v7'
+            exclude module: 'support-vector-drawable'
+            exclude module: 'animated-vector-drawable'
+        }
 
         compile 'com.jakewharton.timber:timber:3.1.0'
 
