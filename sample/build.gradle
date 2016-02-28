@@ -1,64 +1,47 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-  dependencies {
-      classpath 'com.android.tools.build:gradle:1.2.3'
-      classpath 'com.jakewharton.hugo:hugo-plugin:1.1.+'
-  }
-}
-
 apply plugin: 'com.android.application'
-apply plugin: 'hugo'
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
-dependencies {
-    compile project(':library')
-}
-
-def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
-def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
-
-def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
-
+apply plugin: 'android-apt'
 android {
-  compileSdkVersion 22
-  buildToolsVersion '23.0.0 rc3'
-
-  dexOptions {
-    // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
-    preDexLibraries = preDexEnabled
-  }
+  compileSdkVersion 23
+  buildToolsVersion "23.0.2"
 
   defaultConfig {
     minSdkVersion 16
-    targetSdkVersion 22
-
-    buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
-    buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
-  }
-
-  buildTypes {
-    debug {
-//      applicationIdSuffix '.dev'
-      versionNameSuffix '-dev'
-    }
+    targetSdkVersion 23
   }
 
   lintOptions {
     abortOnError false
   }
 
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_7
-    targetCompatibility JavaVersion.VERSION_1_7
-  }
-
   packagingOptions {
     exclude  'META-INF/services/javax.annotation.processing.Processor'
+  }
+
+  dependencies {
+    compile "com.android.support:appcompat-v7:23.2.0"
+    compile 'com.jakewharton.timber:timber:3.1.0'
+
+    debugCompile project( ':debugdrawer')
+    releaseCompile project( ':debugdrawer-noop')
+    testCompile project( ':debugdrawer-noop')
+
+    debugCompile project( ':modules:device-info-module')
+    debugCompile project( ':modules:device-info-module')
+    debugCompile project( ':modules:madge-module')
+    debugCompile project( ':modules:scalpe-module')
+    debugCompile project( ':modules:build-module')
+    debugCompile project( ':modules:telescope-module')
+    debugCompile project( ':modules:leakcanary-module')
+    debugCompile project( ':modules:animation-speed-module')
+    debugCompile project( ':modules:riseandshine-module')
+    debugCompile project( ':modules:timber-module')
+
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    compile 'com.google.dagger:dagger:2.0.2'
+    provided 'javax.inject:javax.inject:1'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    apt 'com.github.lukaspili.autodagger2:autodagger2-compiler:1.1'
+    compile 'com.github.lukaspili.autodagger2:autodagger2:1.1'
   }
 }

@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_columnSpan="2" android:layout_gravity="start|end" style="@style/Widget.U2020.DebugDrawer.Header"/>

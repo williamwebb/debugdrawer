@@ -1,0 +1,11 @@
+apply plugin: 'java'
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    provided 'com.google.android:android:4.0.1.2'
+}

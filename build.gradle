@@ -1,30 +1,21 @@
-import java.util.regex.Pattern
+subprojects { project ->
+    version = VERSION_NAME
+    group = GROUP
 
-allprojects {
-
-    task('increaseVersionCode') << {
-        def manifestFile = file("src/main/AndroidManifest.xml")
-        def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
-        def manifestText = manifestFile.getText()
-        def matcher = pattern.matcher(manifestText)
-        matcher.find()
-        def versionCode = Integer.parseInt(matcher.group(1))
-        def manifestContent = matcher.replaceAll("versionCode=\"" + ++versionCode + "\"")
-        manifestFile.write(manifestContent)
+    buildscript {
+        repositories {
+//            mavenLocal()
+            jcenter()
+        }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:2.0.0-beta6'
+            classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        }
     }
 
-    task('incrementVersionName') << {
-        def manifestFile = file("src/main/AndroidManifest.xml")
-        def patternVersionNumber = Pattern.compile("versionName=\"(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\"")
-        def manifestText = manifestFile.getText()
-        def matcherVersionNumber = patternVersionNumber.matcher(manifestText)
-        matcherVersionNumber.find()
-        def buildVersion = Integer.parseInt(matcherVersionNumber.group(4))
-        def mNextVersionName = VERSION_NAME + "." + (buildVersion + 1)
-        def manifestContent = matcherVersionNumber.replaceAll("versionName=\"" + mNextVersionName + "\"")
-        manifestFile.write(manifestContent)
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
     }
 }
-
-
-

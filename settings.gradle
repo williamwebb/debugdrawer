@@ -1,2 +1,13 @@
-include ':library'
+include ':debugdrawer', ':debugdrawer-noop', ':modules'
+
+include ':modules:device-info-module'
+include ':modules:madge-module'
+include ':modules:scalpe-module'
+include ':modules:build-module'
+include ':modules:telescope-module'
+include ':modules:leakcanary-module'
+include ':modules:animation-speed-module'
+include ':modules:riseandshine-module'
+include ':modules:timber-module'
+
 include ':sample'

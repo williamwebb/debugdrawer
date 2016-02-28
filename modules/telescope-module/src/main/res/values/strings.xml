@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">telescope-module</string>
+    <string name="no_intent_handler">There are no applications available to handle this action.</string>
+</resources>

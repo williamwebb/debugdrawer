@@ -1,0 +1,19 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+
+    dependencies {
+        compile project(':debugdrawer')
+        compile project(':modules:timber-module')
+        compile 'com.mattprecious.telescope:telescope:2.0.0@aar'
+    }
+}

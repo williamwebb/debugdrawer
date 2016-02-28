@@ -10,7 +10,36 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/library" />
+            <option value="$PROJECT_DIR$/debugdrawer" />
+            <option value="$PROJECT_DIR$/debugdrawer-noop" />
+            <option value="$PROJECT_DIR$/modules" />
+            <option value="$PROJECT_DIR$/modules/animation-speed-module" />
+            <option value="$PROJECT_DIR$/modules/build-module" />
+            <option value="$PROJECT_DIR$/modules/device-info-module" />
+            <option value="$PROJECT_DIR$/modules/leakcanary-module" />
+            <option value="$PROJECT_DIR$/modules/madge-module" />
+            <option value="$PROJECT_DIR$/modules/riseandshine-module" />
+            <option value="$PROJECT_DIR$/modules/scalpe-module" />
+            <option value="$PROJECT_DIR$/modules/telescope-module" />
+            <option value="$PROJECT_DIR$/modules/timber-module" />
+            <option value="$PROJECT_DIR$/sample" />
+          </set>
+        </option>
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/debugdrawer" />
+            <option value="$PROJECT_DIR$/debugdrawer-noop" />
+            <option value="$PROJECT_DIR$/modules" />
+            <option value="$PROJECT_DIR$/modules/animation-speed-module" />
+            <option value="$PROJECT_DIR$/modules/build-module" />
+            <option value="$PROJECT_DIR$/modules/device-info-module" />
+            <option value="$PROJECT_DIR$/modules/leakcanary-module" />
+            <option value="$PROJECT_DIR$/modules/madge-module" />
+            <option value="$PROJECT_DIR$/modules/riseandshine-module" />
+            <option value="$PROJECT_DIR$/modules/scalpe-module" />
+            <option value="$PROJECT_DIR$/modules/telescope-module" />
+            <option value="$PROJECT_DIR$/modules/timber-module" />
             <option value="$PROJECT_DIR$/sample" />
           </set>
         </option>

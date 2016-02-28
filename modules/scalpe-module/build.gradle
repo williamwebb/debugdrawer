@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+apply plugin: 'android-apt'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+
+    dependencies {
+        compile project(':debugdrawer')
+        compile 'com.jakewharton.scalpel:scalpel:1.1.2'
+
+        compile 'com.jug6ernaut.saber:saber-runtime:0.6.0'
+        apt 'com.jug6ernaut.saber:saber-compiler:0.6.0'
+    }
+}

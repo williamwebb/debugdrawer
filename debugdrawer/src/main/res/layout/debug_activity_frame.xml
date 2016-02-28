@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jakewharton.u2020.ui.debug.DebugDrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/debug_drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/content_base">
+    </FrameLayout>
+
+    <com.jakewharton.u2020.ui.debug.NonConsumingScrimInsetsFrameLayout
+            android:layout_width="290dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="#e222"
+            android:fitsSystemWindows="true"
+            app:insetForeground="#4000"
+            >
+
+        <ScrollView
+                android:id="@+id/debug_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:clipToPadding="false"
+                android:fillViewport="true"
+                android:scrollbars="none"
+                />
+    </com.jakewharton.u2020.ui.debug.NonConsumingScrimInsetsFrameLayout>
+</com.jakewharton.u2020.ui.debug.DebugDrawerLayout>
