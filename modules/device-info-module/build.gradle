@@ -20,3 +20,5 @@ android {
         compile project(':debugdrawer')
     }
 }
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

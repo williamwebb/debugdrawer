@@ -12,3 +12,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     provided 'com.google.android:android:4.0.1.2'
 }
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

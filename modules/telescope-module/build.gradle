@@ -22,3 +22,5 @@ android {
         compile 'com.mattprecious.telescope:telescope:2.0.0@aar'
     }
 }
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

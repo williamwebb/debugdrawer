@@ -21,3 +21,5 @@ android {
         compile 'com.jakewharton.timber:timber:3.1.0'
     }
 }
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
