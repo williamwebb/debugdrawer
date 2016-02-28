@@ -10,20 +10,20 @@ In your applications you often need to change certain configuration settings, mo
 Usage
 =====
 
-	    new DebugDrawer()
-            .elements("Network",new NetworkWatcher(this))
-		    .elements("UI", 
-                new TelescopeElement(), 
-                new AnimationSpeedElement(), 
-                new LeakCanaryElement(),
-                new RiseAndShineElement())
-		    .modules(
-                new BuildModule(), 
-                new DeviceInfoModule(), 
-                new MadgeModule(), 
-                new ScalpelModule(), 
-                new GhostModule())
-	    .bind(this);
+	    new DebugDrawer.Builder()
+			.elements("UI",
+				new TelescopeElement(),
+				new AnimationSpeedElement(),
+				new LeakCanaryElement(),
+				new RiseAndShineElement())
+			.elements("Network", new NetworkWatcher(activity))
+			.modules(
+				new BuildModule(),
+				new DeviceInfoModule(),
+				new MadgeModule(),
+				new ScalpelModule())
+			.elements("Logs",new TimberModule())
+			.bind(this);
 
 ![](vid.gif)
 
@@ -34,22 +34,21 @@ Download [the latest JAR][2] or grab via Maven:
 
 ```xml
 <dependency>
-  <groupId>com.jug6ernaut</groupId>
+  <groupId>com.jug6ernaut.debugdrawer</groupId>
   <artifactId>debugdrawer</artifactId>
-  <version>0.6.3</version>
+  <version>0.7.0</version>
 </dependency>
 ```
 or Gradle:
 
 ```groovy
-compile 'com.jug6ernaut:debugdrawer:0.6.3'
+compile 'com.jug6ernaut.debugdrawer:debugdrawer:0.7.0'
 ```
-For the current snapshot use version `0.6.4-SNAPSHOT` based on the `dev` branch.
 
 License
 -------
 
-    Copyright 2014 William Webb
+    Copyright 2016 William Webb
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
