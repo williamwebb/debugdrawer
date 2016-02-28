@@ -19,11 +19,15 @@ branches:
   except:
     - gh-pages
 
+sudo: false
+
+script:
+  - sh ci.sh
+
 notifications:
   email: true
-
-sudo: false
 
 cache:
   directories:
     - $HOME/.m2
+    - $HOME/.gradle
