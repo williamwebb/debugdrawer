@@ -5,6 +5,9 @@ configurations {
     compile.extendsFrom provided
 }
 
+sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
+targetCompatibility = rootProject.ext.targetCompatibilityVersion
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     provided 'com.google.android:android:4.0.1.2'

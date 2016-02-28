@@ -16,6 +16,11 @@ android {
         abortOnError false
     }
 
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
+
     dependencies {
         compile 'com.android.support:design:23.2.0'
 

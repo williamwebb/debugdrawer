@@ -11,6 +11,11 @@ android {
         versionName "1.0"
     }
 
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
+
     dependencies {
         compile project(':debugdrawer')
         compile project(':modules:timber-module')

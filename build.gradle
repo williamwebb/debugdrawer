@@ -4,7 +4,6 @@ subprojects { project ->
 
     buildscript {
         repositories {
-//            mavenLocal()
             jcenter()
         }
         dependencies {
@@ -14,8 +13,11 @@ subprojects { project ->
     }
 
     repositories {
-        mavenLocal()
-        mavenCentral()
         jcenter()
     }
+}
+
+ext {
+    sourceCompatibilityVersion = JavaVersion.VERSION_1_7
+    targetCompatibilityVersion = JavaVersion.VERSION_1_7
 }

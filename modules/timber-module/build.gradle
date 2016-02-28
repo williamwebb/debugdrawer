@@ -10,6 +10,12 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
+
     dependencies {
         compile project(':debugdrawer')
         compile 'com.jakewharton.timber:timber:3.1.0'
