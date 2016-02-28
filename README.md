@@ -6,31 +6,47 @@ HEAVILY inspired/built off of JakeWharton's awesome work in [u2020](https://gith
 Overview
 ========
 In your applications you often need to change certain configuration settings, monitor internal state or simply try to understand what, DebugDrawer allows you to easily add a slide out drawer with the ability to do this. Classes are provided to allow you to easily create your own additions to customize to your needs.
+
+![](vid.gif)
 	    
 Usage
 =====
+In your `Activity` class:
 
-	    new DebugDrawer.Builder()
-			.elements("UI",
-				new TelescopeElement(),
-				new AnimationSpeedElement(),
-				new LeakCanaryElement(),
-				new RiseAndShineElement())
-			.elements("Network", new NetworkWatcher(activity))
-			.modules(
-				new BuildModule(),
-				new DeviceInfoModule(),
-				new MadgeModule(),
-				new ScalpelModule())
-			.elements("Logs",new TimberModule())
-			.bind(this);
+	new DebugDrawer.Builder()
+		.elements("UI",
+			new TelescopeElement(),
+			new AnimationSpeedElement(),
+			new LeakCanaryElement(),
+			new RiseAndShineElement())
+		.elements("Network", new NetworkWatcher(this))
+		.modules(
+			new BuildModule(),
+			new DeviceInfoModule(),
+			new MadgeModule(),
+			new ScalpelModule())
+		.elements("Logs",new TimberModule())
+		.bind(this);
+			
+In your `build.gradle`:
 
-![](vid.gif)
+	debugCompile 'com.jug6ernaut.debugdrawer:debugdrawer:{latest}'
+	releaseCompile 'com.jug6ernaut.debugdrawer:debugdrawer-noop:{latest}'
+	testCompile 'com.jug6ernaut.debugdrawer:debugdrawer-noop:{latest}'
+	...
+	debugCompile 'com.jug6ernaut.debugdrawer:module-deviceinfo:0.7.0'
+	...
 
 Download
 --------
 
-Download [the latest JAR][2] or grab via Maven:
+Gradle:
+
+```groovy
+compile 'com.jug6ernaut.debugdrawer:debugdrawer:0.7.0'
+```
+
+Maven:
 
 ```xml
 <dependency>
@@ -38,11 +54,6 @@ Download [the latest JAR][2] or grab via Maven:
   <artifactId>debugdrawer</artifactId>
   <version>0.7.0</version>
 </dependency>
-```
-or Gradle:
-
-```groovy
-compile 'com.jug6ernaut.debugdrawer:debugdrawer:0.7.0'
 ```
 
 License
@@ -62,7 +73,3 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
     
-    
-    
-[1]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.jug6ernaut&a=debugdrawer&v=LATEST
-[2]: http://central.maven.org/maven2/com/jug6ernaut/debugdrawer/0.6.3/debugdrawer-0.6.3.aar
