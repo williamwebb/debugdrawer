@@ -1,4 +1,4 @@
-DebugDrawer
+DebugDrawer [![Build Status](https://travis-ci.org/jug6ernaut/debugdrawer.svg?branch=master)](https://travis-ci.org/jug6ernaut/debugdrawer)
 ===========
 
 HEAVILY inspired/built off of JakeWharton's awesome work in [u2020](https://github.com/JakeWharton/u2020) DebugDrawer is small but highly extendable library built to allow developers to easily add a DebugDrawer to their Android applications.
