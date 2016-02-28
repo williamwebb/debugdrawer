@@ -1,13 +1,11 @@
-include ':debugdrawer', ':debugdrawer-noop', ':modules'
-
-include ':modules:device-info-module'
-include ':modules:madge-module'
-include ':modules:scalpe-module'
-include ':modules:build-module'
-include ':modules:telescope-module'
-include ':modules:leakcanary-module'
-include ':modules:animation-speed-module'
-include ':modules:riseandshine-module'
-include ':modules:timber-module'
-
-include ':sample'
+include ':debugdrawer', ':debugdrawer-noop',
+    ':modules:device-info-module',
+    ':modules:madge-module',
+    ':modules:scalpe-module',
+    ':modules:build-module',
+    ':modules:telescope-module',
+    ':modules:leakcanary-module',
+    ':modules:animation-speed-module',
+    ':modules:riseandshine-module',
+    ':modules:timber-module',
+    ':sample'
