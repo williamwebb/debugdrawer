@@ -43,17 +43,7 @@ Download
 Gradle:
 
 ```groovy
-compile 'com.jug6ernaut.debugdrawer:debugdrawer:0.7.0'
-```
-
-Maven:
-
-```xml
-<dependency>
-  <groupId>com.jug6ernaut.debugdrawer</groupId>
-  <artifactId>debugdrawer</artifactId>
-  <version>0.7.0</version>
-</dependency>
+debugCompile 'com.jug6ernaut.debugdrawer:debugdrawer:0.7.0'
 ```
 
 License
