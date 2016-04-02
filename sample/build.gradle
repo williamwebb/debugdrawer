@@ -1,21 +1,24 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.2"
+  compileSdkVersion 'android-N'
+  buildToolsVersion '24.0.0-rc1'
 
   defaultConfig {
-    minSdkVersion 16
-    targetSdkVersion 23
+    minSdkVersion 'N'
+    targetSdkVersion 'N'
+
+    // Enable the experimental Jack build tools.
+    useJack = config.useJack
   }
 
   lintOptions {
-    abortOnError false
+    abortOnError true
   }
 
   compileOptions {
-    sourceCompatibility rootProject.ext.sourceCompatibilityVersion
-    targetCompatibility rootProject.ext.targetCompatibilityVersion
+    sourceCompatibility config.sourceCompatibilityVersion
+    targetCompatibility config.targetCompatibilityVersion
   }
 
   packagingOptions {
@@ -23,7 +26,7 @@ android {
   }
 
   dependencies {
-    compile "com.android.support:appcompat-v7:23.2.0"
+    compile "com.android.support:appcompat-v7:23.2.1"
     compile 'com.jakewharton.timber:timber:3.1.0'
 
     debugCompile project( ':debugdrawer')

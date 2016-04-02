@@ -8,7 +8,7 @@ subprojects { project ->
         }
         dependencies {
             classpath 'com.android.tools.build:gradle:2.1.0-alpha5'
-            classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+            classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
         }
     }
 
@@ -16,8 +16,12 @@ subprojects { project ->
         jcenter()
     }
 }
-
-ext {
-    sourceCompatibilityVersion = JavaVersion.VERSION_1_7
-    targetCompatibilityVersion = JavaVersion.VERSION_1_7
-}
+ext.config = [
+        compileSdkVersion : 'android-N',
+        buildToolsVersion : '24.0.0-rc1',
+        minSdkVersion : 'N',
+        targetSdkVersion : 'N',
+        sourceCompatibilityVersion : JavaVersion.VERSION_1_8,
+        targetCompatibilityVersion : JavaVersion.VERSION_1_8,
+        useJack : true
+]

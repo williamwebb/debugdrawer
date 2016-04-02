@@ -5,8 +5,8 @@ configurations {
     compile.extendsFrom provided
 }
 
-sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
-targetCompatibility = rootProject.ext.targetCompatibilityVersion
+sourceCompatibility = config.sourceCompatibilityVersion
+targetCompatibility = config.targetCompatibilityVersion
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
