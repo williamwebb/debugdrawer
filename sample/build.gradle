@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-  compileSdkVersion 'android-N'
-  buildToolsVersion '24.0.0-rc1'
+  compileSdkVersion config.compileSdkVersion
+  buildToolsVersion config.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion 'N'
-    targetSdkVersion 'N'
+    minSdkVersion config.minSdkVersion
+    targetSdkVersion config.targetSdkVersion
 
     // Enable the experimental Jack build tools.
     useJack = config.useJack
