@@ -2,7 +2,6 @@ package com.jug6ernaut.debugdrawer.views;
 
 import android.content.Context;
 import android.view.*;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import com.jug6ernaut.debugdrawer.R;
 import com.jug6ernaut.saber.preferences.BooleanPreference;
@@ -42,12 +41,9 @@ public abstract class ToggleElement extends DebugElement {
         aSwitch.setText(title);
         aSwitch.setChecked(checked.get());
         aSwitch.setEnabled(isEnabled());
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checked.set(isChecked);
-                onSwitch(isChecked);
-            }
+        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checked.set(isChecked);
+            onSwitch(isChecked);
         });
         aSwitch.setGravity(Gravity.START | Gravity.END | Gravity.CENTER_VERTICAL); // "start|end|center_vertical"
         return aSwitch;

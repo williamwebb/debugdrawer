@@ -23,5 +23,5 @@ ext.config = [
         targetSdkVersion : 'N',
         sourceCompatibilityVersion : JavaVersion.VERSION_1_8,
         targetCompatibilityVersion : JavaVersion.VERSION_1_8,
-        useJack : true
+        useJack : false
 ]

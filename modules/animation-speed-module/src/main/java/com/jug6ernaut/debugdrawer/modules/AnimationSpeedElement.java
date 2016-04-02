@@ -1,11 +1,10 @@
 package com.jug6ernaut.debugdrawer.modules;
 
 import android.animation.ValueAnimator;
+import com.annimon.stream.Stream;
 import com.jug6ernaut.debugdrawer.views.SpinnerElement;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by williamwebb on 7/3/15.
@@ -33,11 +32,9 @@ public class AnimationSpeedElement extends SpinnerElement {
 	}
 
 	private static String[] toArray() {
-		List<String> names = new ArrayList<>();
-		for (AnimationSettings as : AnimationSettings.values()){
-			names.add(as.name);
-		}
-		return names.toArray(new String[names.size()]);
+		 return Stream.of(AnimationSettings.values())
+			 .map(as -> as.name)
+			 .toArray(String[]::new);
 	}
 
 	private enum AnimationSettings {

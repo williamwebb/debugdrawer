@@ -32,6 +32,7 @@ android {
         compile 'com.jakewharton.timber:timber:3.1.0'
 
         compile 'com.jug6ernaut.saber:saber-runtime:0.6.0'
+        compile 'com.annimon:stream:1.0.8'
     }
 }
 

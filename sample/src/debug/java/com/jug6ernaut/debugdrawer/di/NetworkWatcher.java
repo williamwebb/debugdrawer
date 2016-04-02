@@ -20,6 +20,7 @@ public class NetworkWatcher extends WatcherElement {
 	}
 
 	protected void onModuleAttached(Activity activity, DebugModule module) {
+		super.onModuleAttached(activity,module);
 		activity.registerReceiver(new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {

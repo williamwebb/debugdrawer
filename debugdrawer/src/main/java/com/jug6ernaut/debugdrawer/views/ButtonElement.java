@@ -20,12 +20,7 @@ public abstract class ButtonElement extends DebugElement {
 	public View onCreateView(LayoutInflater inflater, ViewGroup root) {
 		Button button = new Button(root.getContext());
 		button.setText(buttonText);
-		button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ButtonElement.this.onClick(v);
-			}
-		});
+		button.setOnClickListener(this::onClick);
 		return button;
 	}
 

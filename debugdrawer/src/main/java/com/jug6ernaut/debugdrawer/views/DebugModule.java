@@ -5,11 +5,11 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import com.annimon.stream.Stream;
 import com.jug6ernaut.debugdrawer.DebugView;
 import com.jug6ernaut.debugdrawer.R;
 import com.jug6ernaut.debugdrawer.utils.ActivityEventListener;
@@ -115,16 +115,11 @@ public abstract class DebugModule {
     }
 
     private void notifyModuleAttached(Activity activity, DebugModule debugModule) {
-        for (DebugElement e : debugModule.elements) {
-            e.onModuleAttached(activity,this);
-        }
+        Stream.of(debugModule.elements).forEach(e -> e.onModuleAttached(activity,this));
     }
 
     private void attachElements(LayoutInflater inflater, DebugView parent, ViewGroup toAdd, Collection<DebugElement> debugElements) {
-        for (DebugElement e : debugElements) {
-            View view = e.create(this,inflater, parent);
-            toAdd.addView(view);
-        }
+        Stream.of(debugElements).forEach(e -> toAdd.addView(e.create(this,inflater, parent)));
     }
 
     private void registerActivityListener(Activity activity) {
@@ -172,10 +167,10 @@ public abstract class DebugModule {
 
     private void postEvent(DrawerEvent event) {
         switch (event) {
-            case OPENED: for (DebugElement e : elements) e.onDrawerOpened(); break;
-            case CLOSED: for (DebugElement e : elements) e.onDrawerClosed(); break;
-            case ACTIVITY_START: for (DebugElement e : elements) e.onActivityStart(); break;
-            case ACTIVITY_STOP: for (DebugElement e : elements) e.onActivityStop(); break;
+            case OPENED: Stream.of(elements).forEach(DebugElement::onDrawerOpened); break;
+            case CLOSED: Stream.of(elements).forEach(DebugElement::onDrawerClosed); break;
+            case ACTIVITY_START: Stream.of(elements).forEach(DebugElement::onActivityStart); break;
+            case ACTIVITY_STOP: Stream.of(elements).forEach(DebugElement::onActivityStop); break;
         }
     }
 }

@@ -5,15 +5,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.view.GravityCompat;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+import com.annimon.stream.Stream;
 import com.jakewharton.u2020.ui.debug.DebugDrawerLayout;
 import com.jug6ernaut.debugdrawer.views.DebugElement;
 import com.jug6ernaut.debugdrawer.views.DebugModule;
 import com.jug6ernaut.saber.preferences.BooleanPreference;
 import com.jug6ernaut.saber.preferences.Preference;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -108,24 +111,19 @@ public final class DebugDrawer {
 		viewHolder.debugDrawer.addView(debugView);
 
 		// Attach all modules to the DebugView
-		for(DebugModule m : moduleMap.values()) {
-			m.attach(activity,debugView,viewHolder.content);
-		}
+		final Collection<DebugModule> elements = moduleMap.values();
+		Stream.of(elements).forEach(m -> m.attach(activity, debugView, viewHolder.content));
 
-		viewHolder.drawerLayout.setDrawerShadow(R.drawable.debug_drawer_shadow, Gravity.RIGHT);
+		viewHolder.drawerLayout.setDrawerShadow(R.drawable.debug_drawer_shadow, GravityCompat.END);
 		viewHolder.drawerLayout.setDrawerListener(new DebugDrawerLayout.DrawerListener() {
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				for(DebugModule group : moduleMap.values()){
-					group.onDrawerOpened();
-				}
+				Stream.of(elements).forEach(DebugModule::onDrawerOpened);
 			}
 			@Override
 			public void onDrawerClosed(View drawerView) {
-				for(DebugModule group : moduleMap.values()){
-					group.onDrawerClosed();
-				}
+				Stream.of(elements).forEach(DebugModule::onDrawerClosed);
 			}
 
 			@Override public void onDrawerSlide(View drawerView, float slideOffset) { }
@@ -136,11 +134,9 @@ public final class DebugDrawer {
 
 		// If you have not seen the debug drawer before, show it with a message
 		if (!seenDebugDrawer.get()) {
-			viewHolder.drawerLayout.postDelayed(new Runnable() {
-				@Override public void run() {
-					viewHolder.drawerLayout.openDrawer(Gravity.RIGHT);
-					Toast.makeText(drawerContext, R.string.debug_drawer_welcome, Toast.LENGTH_LONG).show();
-				}
+			viewHolder.drawerLayout.postDelayed(() -> {
+				viewHolder.drawerLayout.openDrawer(GravityCompat.END);
+				Toast.makeText(drawerContext, R.string.debug_drawer_welcome, Toast.LENGTH_LONG).show();
 			}, 1000);
 			seenDebugDrawer.set(true);
 		}

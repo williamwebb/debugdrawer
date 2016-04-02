@@ -1,14 +1,15 @@
 package com.jug6ernaut.debugdrawer.modules;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.ViewGroup;
 import com.jakewharton.madge.MadgeFrameLayout;
 import com.jug6ernaut.debugdrawer.DebugView;
 import com.jug6ernaut.debugdrawer.views.DebugModule;
 import com.jug6ernaut.debugdrawer.views.ToggleElement;
-import com.jug6ernaut.saber.Saber;
+import com.jug6ernaut.saber.preferences.BooleanPreference;
 import com.jug6ernaut.saber.preferences.Preference;
-import saber.Bind;
 import timber.log.Timber;
 
 /**
@@ -16,8 +17,8 @@ import timber.log.Timber;
  */
 public class MadgeModule extends DebugModule {
 
-    @Bind(key = "") Preference<Boolean> pixelGridEnabled;
-    @Bind(key = "") Preference<Boolean> pixelRatioEnabled;
+    Preference<Boolean> pixelGridEnabled;
+    Preference<Boolean> pixelRatioEnabled;
     MadgeFrameLayout  madgeFrameLayout;
     ToggleElement     uiPixelGridElement;
     ToggleElement     uiPixelRatioElement;
@@ -32,7 +33,9 @@ public class MadgeModule extends DebugModule {
 
     @Override
     protected void onAttach(Activity activity, DebugView parent, ViewGroup content) {
-        Saber.bind(this,activity);
+        SharedPreferences sp = activity.getPreferences(Context.MODE_PRIVATE);
+        pixelGridEnabled = new BooleanPreference(sp,"pixelGridEnabled");
+        pixelRatioEnabled = new BooleanPreference(sp,"pixelRatioEnabled");
 
         uiPixelGridElement = new ToggleElement("Pixel Grid") {
             @Override

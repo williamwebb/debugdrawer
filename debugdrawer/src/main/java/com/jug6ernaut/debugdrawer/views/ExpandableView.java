@@ -35,14 +35,11 @@ public class ExpandableView extends LinearLayout {
 		this.addView(titleView);
 		this.addView(content);
 
-		titleView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				boolean expanded = (content.getVisibility() != VISIBLE);
-				setExpanded(expanded);
-				isExpanded.set(expanded);
-				if(stateChangeListener != null) stateChangeListener.onStateChanged(isExpanded());
-			}
+		titleView.setOnClickListener(view -> {
+			boolean expanded = (content.getVisibility() != VISIBLE);
+			setExpanded(expanded);
+			isExpanded.set(expanded);
+			if(stateChangeListener != null) stateChangeListener.onStateChanged(isExpanded());
 		});
 
 		setExpanded(isExpanded.get());

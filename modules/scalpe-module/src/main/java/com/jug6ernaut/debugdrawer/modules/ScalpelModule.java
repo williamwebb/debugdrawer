@@ -1,14 +1,15 @@
 package com.jug6ernaut.debugdrawer.modules;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.ViewGroup;
 import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.jug6ernaut.debugdrawer.DebugView;
 import com.jug6ernaut.debugdrawer.views.DebugModule;
 import com.jug6ernaut.debugdrawer.views.ToggleElement;
-import com.jug6ernaut.saber.Saber;
+import com.jug6ernaut.saber.preferences.BooleanPreference;
 import com.jug6ernaut.saber.preferences.Preference;
-import saber.Bind;
 import timber.log.Timber;
 
 /**
@@ -16,13 +17,13 @@ import timber.log.Timber;
  */
 public class ScalpelModule extends DebugModule {
 
-    ScalpelFrameLayout scalpelFrameLayout;
+    private ScalpelFrameLayout scalpelFrameLayout;
 
-    ToggleElement uiScalpelElement;
-    ToggleElement uiScalpelWireframeElement;
+    private ToggleElement uiScalpelElement;
+    private ToggleElement uiScalpelWireframeElement;
 
-    @Bind(key = "") Preference<Boolean> scalpelEnabled;
-    @Bind(key = "") Preference<Boolean> scalpelWireframeEnabled;
+    private Preference<Boolean> scalpelEnabled;
+    private Preference<Boolean> scalpelWireframeEnabled;
 
     public ScalpelModule() {
         super("UI");
@@ -34,7 +35,9 @@ public class ScalpelModule extends DebugModule {
 
     @Override
     protected void onAttach(Activity activity, DebugView parent, ViewGroup content) {
-        Saber.bind(this,activity);
+        SharedPreferences sp = activity.getPreferences(Context.MODE_PRIVATE);
+        scalpelEnabled = new BooleanPreference(sp,"scalpelEnabled");
+        scalpelWireframeEnabled = new BooleanPreference(sp,"scalpelWireframeEnabled");
 
         uiScalpelElement = new ToggleElement("Scalpel") {
             @Override
