@@ -17,9 +17,9 @@ public class ExpandableView extends LinearLayout {
 
 	public final TextView  titleView;
 	public final ViewGroup content;
-	private OnStateChangeListener stateChangeListener;
+	private final BooleanPreference isExpanded;
 
-	BooleanPreference isExpanded;
+	private OnStateChangeListener stateChangeListener;
 
 	public ExpandableView(Context context, TextView titleView, final ViewGroup content) {
 		super(context);
@@ -38,10 +38,10 @@ public class ExpandableView extends LinearLayout {
 		titleView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				boolean expanded = !(content.getVisibility() == VISIBLE);
+				boolean expanded = (content.getVisibility() != VISIBLE);
 				setExpanded(expanded);
 				isExpanded.set(expanded);
-				if(stateChangeListener != null)stateChangeListener.onStateChanged(isExpanded());
+				if(stateChangeListener != null) stateChangeListener.onStateChanged(isExpanded());
 			}
 		});
 
@@ -64,7 +64,7 @@ public class ExpandableView extends LinearLayout {
 		this.stateChangeListener = oscl;
 	}
 
-	public static interface OnStateChangeListener {
+	public interface OnStateChangeListener {
 		void onStateChanged(boolean expanded);
 	}
 }

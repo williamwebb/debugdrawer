@@ -30,7 +30,7 @@ public abstract class ToggleElement extends DebugElement {
     public abstract void onSwitch(boolean state);
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup root) {
+    protected View onCreateView(LayoutInflater inflater, ViewGroup root) {
         final Context context = root.getContext();
         checked = new BooleanPreference(
             context.getSharedPreferences(getKey(),Context.MODE_PRIVATE),

@@ -23,7 +23,7 @@ public class TextElement extends DebugElement {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup root) {
+    protected View onCreateView(LayoutInflater inflater, ViewGroup root) {
         nameView = new TextView(new ContextThemeWrapper(root.getContext(), R.style.Widget_U2020_DebugDrawer_RowTitle));
         nameView.setText(name);
         valueView = new TextView(new ContextThemeWrapper(root.getContext(), R.style.Widget_U2020_DebugDrawer_RowValue));

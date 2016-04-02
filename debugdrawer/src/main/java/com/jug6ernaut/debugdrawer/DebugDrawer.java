@@ -23,10 +23,10 @@ import static com.jug6ernaut.debugdrawer.utils.ViewUtils.findById;
 
 public final class DebugDrawer {
 
-	private DebugDrawer() { }
-
-	@Bind(key = "hasSeenDrawer") Preference<Boolean> seenDebugDrawer;
 	private Map<String, DebugModule> moduleMap = new LinkedHashMap<>();
+	@Bind(key = "hasSeenDrawer") Preference<Boolean> seenDebugDrawer;
+
+	private DebugDrawer() { }
 
 	public static class Builder {
 		DebugDrawer debugDrawer = new DebugDrawer();

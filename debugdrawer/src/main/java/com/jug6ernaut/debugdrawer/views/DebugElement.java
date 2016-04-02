@@ -11,9 +11,9 @@ import com.jug6ernaut.debugdrawer.DebugView;
  */
 public abstract class DebugElement {
 
-	public abstract View onCreateView(LayoutInflater inflater, ViewGroup root);
+	protected abstract View onCreateView(LayoutInflater inflater, ViewGroup root);
 	protected void onViewCreated(View view){ }
-	protected void onModuleAttached(Activity activity, DebugModule module){ }
+	protected void onModuleAttached(Activity activity, DebugModule module) { }
 	protected void onDrawerOpened() {}
 	protected void onDrawerClosed() {}
 	protected void onActivityStart() {}

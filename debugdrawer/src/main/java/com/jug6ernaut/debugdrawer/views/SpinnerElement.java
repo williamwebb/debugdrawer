@@ -30,7 +30,7 @@ public abstract class SpinnerElement extends DebugElement {
     public abstract void onItemSelect(String item);
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup root) {
+    protected View onCreateView(LayoutInflater inflater, ViewGroup root) {
         Context context = root.getContext();
         currentValue = new StringPreference(
             context.getSharedPreferences(getKey(),Context.MODE_PRIVATE),
