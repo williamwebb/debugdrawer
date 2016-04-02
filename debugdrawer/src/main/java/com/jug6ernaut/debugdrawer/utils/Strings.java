@@ -1,4 +1,4 @@
-package com.jug6ernaut.debugdrawer;
+package com.jug6ernaut.debugdrawer.utils;
 
 public final class Strings {
   private Strings() {

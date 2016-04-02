@@ -27,6 +27,7 @@ public abstract class SpinnerElement extends DebugElement {
         this.name = name;
         this.elements = elements;
     }
+
     public abstract void onItemSelect(String item);
 
     @Override
@@ -56,15 +57,13 @@ public abstract class SpinnerElement extends DebugElement {
                 onItemSelect(elements[position]);
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            @Override public void onNothingSelected(AdapterView<?> parent) { }
         });
 
-	    TextView nameView = new TextView(context);
-		nameView.setText(name);
-        return TextElement.createDefaultLayout(nameView,spinner);
+	      TextView nameView = new TextView(context);
+		    nameView.setText(name);
+
+        return createDefaultLayout(nameView,spinner);
     }
 
     public void setRememberState(boolean shouldRemember) {

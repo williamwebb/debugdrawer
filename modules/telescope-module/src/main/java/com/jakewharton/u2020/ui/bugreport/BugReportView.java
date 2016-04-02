@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import com.jug6ernaut.debugdrawer.Strings;
+import com.jug6ernaut.debugdrawer.utils.Strings;
 import io.jug6ernaut.debugdrawer.telescope_module.R;
 
 import static com.jug6ernaut.debugdrawer.utils.ViewUtils.findById;

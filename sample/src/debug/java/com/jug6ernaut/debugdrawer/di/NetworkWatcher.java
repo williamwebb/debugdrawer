@@ -1,11 +1,13 @@
 package com.jug6ernaut.debugdrawer.di;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import com.jug6ernaut.debugdrawer.views.DebugModule;
 import com.jug6ernaut.debugdrawer.views.WatcherElement;
 
 /**
@@ -13,10 +15,12 @@ import com.jug6ernaut.debugdrawer.views.WatcherElement;
  */
 // Do not actually use this :) leaky leaky leaky
 public class NetworkWatcher extends WatcherElement {
-	public NetworkWatcher(Context context) {
+	public NetworkWatcher() {
 		super("Connection","");
+	}
 
-		context.registerReceiver(new BroadcastReceiver() {
+	protected void onModuleAttached(Activity activity, DebugModule module) {
+		activity.registerReceiver(new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				if (intent.getExtras() != null) {
@@ -33,4 +37,5 @@ public class NetworkWatcher extends WatcherElement {
 			}
 		}, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 	}
+
 }

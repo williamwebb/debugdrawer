@@ -5,7 +5,7 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import com.jug6ernaut.debugdrawer.DebugView;
-import com.jug6ernaut.debugdrawer.Strings;
+import com.jug6ernaut.debugdrawer.utils.Strings;
 import com.jug6ernaut.debugdrawer.views.DebugModule;
 import com.jug6ernaut.debugdrawer.views.TextElement;
 

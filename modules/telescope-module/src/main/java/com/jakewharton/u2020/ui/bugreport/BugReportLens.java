@@ -8,7 +8,7 @@ import android.util.DisplayMetrics;
 import android.widget.Toast;
 import com.jakewharton.u2020.util.Intents;
 import com.jug6ernaut.debugdrawer.BuildConfig;
-import com.jug6ernaut.debugdrawer.Strings;
+import com.jug6ernaut.debugdrawer.utils.Strings;
 import com.mattprecious.telescope.Lens;
 import io.jug6ernaut.debugdrawer.modules.data.LumberYard;
 

@@ -11,9 +11,8 @@ import android.widget.Toast;
 import com.jakewharton.u2020.ui.debug.DebugDrawerLayout;
 import com.jug6ernaut.debugdrawer.views.DebugElement;
 import com.jug6ernaut.debugdrawer.views.DebugModule;
-import com.jug6ernaut.saber.Saber;
+import com.jug6ernaut.saber.preferences.BooleanPreference;
 import com.jug6ernaut.saber.preferences.Preference;
-import saber.Bind;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,8 +22,7 @@ import static com.jug6ernaut.debugdrawer.utils.ViewUtils.findById;
 
 public final class DebugDrawer {
 
-	private Map<String, DebugModule> moduleMap = new LinkedHashMap<>();
-	@Bind(key = "hasSeenDrawer") Preference<Boolean> seenDebugDrawer;
+	private final Map<String, DebugModule> moduleMap = new LinkedHashMap<>();
 
 	private DebugDrawer() { }
 
@@ -105,8 +103,6 @@ public final class DebugDrawer {
 		//add the drawerLayout to the root
 		rootView.addView(mDrawerLayout, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
-		loadPrefs(activity);
-
 		final Context drawerContext = new ContextThemeWrapper(activity, R.style.Theme_U2020_Debug);
 		final DebugView debugView = new DebugView(drawerContext);
 		viewHolder.debugDrawer.addView(debugView);
@@ -136,6 +132,8 @@ public final class DebugDrawer {
 			@Override public void onDrawerStateChanged(int newState) { }
 		});
 
+		Preference<Boolean> seenDebugDrawer = new BooleanPreference(activity.getPreferences(Context.MODE_PRIVATE),"hasSeenDrawer");
+
 		// If you have not seen the debug drawer before, show it with a message
 		if (!seenDebugDrawer.get()) {
 			viewHolder.drawerLayout.postDelayed(new Runnable() {
@@ -151,10 +149,6 @@ public final class DebugDrawer {
 			// Remove the status bar color. The DrawerLayout is responsible for drawing it from now on.
 			setStatusBarColor(activity.getWindow());
 		}
-	}
-
-	private void loadPrefs(Context context){
-		Saber.bind(this,context);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)

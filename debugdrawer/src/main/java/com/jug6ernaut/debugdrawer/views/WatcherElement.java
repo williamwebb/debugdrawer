@@ -2,6 +2,7 @@ package com.jug6ernaut.debugdrawer.views;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.support.annotation.CallSuper;
 import android.widget.TextView;
 import com.jug6ernaut.debugdrawer.R;
 
